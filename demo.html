@@ -7,24 +7,32 @@
 </style>
 <script type="text/javascript">
 	$(function(){
-		$("div").find('.a').css('color','red')
+		$("div div span").css('background','green')
 	});
 </script>
 </head>
 <body>
 
-<p id='p'>abc<span id='span'>span</span>
-<span id='span' class='a'>span</span>
-<span id='span2'>span</span>
-<span id='span3'>span</span>
+<div id="box">
+	<p id='p'>abc<span id='span'>span</span>
+	<span id='span' class='a'>span</span>
+	<span id='span2' class='a'>span</span>
+	<span id='span3'>span</span>
 
-</p>
-<div>abc
-<span id='span' class='a'>span</span>
-<span id='span1' class='a'>span</span>
-<span id='span2' class='a'>span</span>
-<span id='span3'>span</span>
+	</p>
+	<p>abc<span id='span'>span</span>
+	<span id='span' class='a'>span</span>
+	<span id='span2'>span</span>
+	<span id='span3'>span</span>
 
+	</p>
+	<div>abc
+	<span id='span' class='a'>span</span>
+	<span id='span1' class='a'>span</span>
+	<span id='span2' class='a'>span</span>
+	<span id='span3'>span</span>
+
+	</div>
 </div>
 </body>
 </html>
