@@ -251,7 +251,7 @@ jQuery.prototype.drag=function(){
 			}
 			document.onmousemove=function(e){//此处给document绑定事件，是因为鼠标如果移动太快，会脱离当前元素
 				var e=e||window.event;
-				var left=e.clientX-disX;	//e.clientX跟屏幕左距离
+				var left=e.clientX-disX;	//e.clientX距屏幕左距离
 				var top=e.clientY-disY;
 				if(left<0){
 					left=0;
