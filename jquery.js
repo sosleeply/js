@@ -140,12 +140,78 @@ jQuery.prototype.css=function(attr,value){
 	}
 	return this;
 }
+jQuery.prototype.attr=function(attr,value){
+	for(var i=0;i<this.elements.length;i++){
+		if(arguments.length==1){
+			return this.elements[i].getAttribute(attr);
+		}
+		this.elements[i].setAttribute(attr,value);
+	}
+	return this;
+}
 jQuery.prototype.html=function(str){
 	for(var i=0;i<this.elements.length;i++){
 		if(arguments.length==0){
 			return this.elements[i].innerHTML;
 		}
 		this.elements[i].innerHTML=str;
+	}
+	return this;
+}
+jQuery.prototype.top=function(){
+	var top=this.elements[0].offsetTop;
+	var parent=this.elements[0].offsetParent;
+	while(parent!=null){
+		top+=parent.offsetTop;
+		parent=parent.offsetParent;
+	}
+	return top;
+}
+jQuery.prototype.left=function(){
+	var left=this.elements[0].offsetLeft;
+	var parent=this.elements[0].offsetParent;
+	while(parent!=null){
+		left+=parent.offsetLeft;
+		parent=parent.offsetParent;
+	}
+	return left;
+}
+jQuery.prototype.width=function(){
+	return this.elements[0].offsetWidth;
+}
+jQuery.prototype.height=function(){
+	return this.elements[0].offsetHeight;
+}
+jQuery.prototype.innerWidth=function(){
+	return this.elements[0].innerWidth;
+}
+jQuery.prototype.innerHeight=function(){
+	return this.elements[0].innerHeight;
+}
+jQuery.prototype.scrollTop=function(){
+	var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+	return scrollTop;
+}
+jQuery.prototype.offset=function(){
+	return {
+		top:this.elements[0].offsetTop,
+		left:this.elements[0].offsetLeft,
+		width:this.elements[0].offsetWidth,
+		height:this.elements[0].offsetHeight
+	}
+}
+jQuery.prototype.scrollHeight=function(){
+	return document.body.scrollHeight;
+}
+jQuery.prototype.scrollLeft=function(){
+	return  document.body.scrollLeft;
+}
+jQuery.prototype.length=function(){
+	return this.elements.length;
+}
+jQuery.prototype.append=function(obj){
+	for(var i=0;i<this.elements.length;i++){
+		this.elements[i].appendChild(obj);
 	}
 	return this;
 }
@@ -251,6 +317,54 @@ jQuery.prototype.remove=function(){
 		this.elements[i].remove();
 	}
 
+	return this;
+}
+jQuery.prototype.serialize=function(){
+	var form=this.elements[0];
+	var parts={};
+	for(var i=0;i<form.elements.length;i++){
+		var field=form.elements[i];
+		switch(field.type){
+			case undefined:
+			case 'submit':
+			case 'reset':
+			case 'file':
+			case 'button':
+				break;
+			case 'radio':
+			case 'checkbox':
+				if(typeof parts[field.name]!='undefined'){
+					var optValue=parts[field.name];
+					parts[field.name]=(optValue+','+field.value);
+				}else{
+					parts[field.name]=field.value;
+				}
+				if(!field.selected)break;
+			case 'select-one':
+			case 'select-multiple':
+				for(var j=0;j<field.options.length;j++){
+					var option=field.options[j];
+					if(option.selected){
+						var optValue='';
+						if(option.hasAttribute){
+							optValue=(option.hasAttribute('value')?option.value:option.text);
+						}else{
+							optValue=(option.attributes('value').specified?option.value:option.text);
+						}
+						parts[field.name]=optValue;
+					}
+				}
+				break;
+			default:
+				parts[field.name]=field.value;
+		}
+	}
+	return parts;
+}
+jQuery.prototype.each=function(fn){
+	for(var i=0;i<this.elements.length;i++){
+		fn(this.elements[i],i);
+	}
 	return this;
 }
 /****************function end*******************/
@@ -498,6 +612,11 @@ jQuery.prototype.menu=function(){
 $.trim=function(str){
 	return str.replace(/^\s+|\s+$/g,'');
 }
+$.browser=function(){
+	var ua=navigator.userAgent.toLowerCase();
+	return ua;
+}
+
 /****************extend end*********************/
 /***********************************************/
 function $(args){
