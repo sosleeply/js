@@ -8,13 +8,16 @@ function jQuery(args){
 		case 'string':
 			switch(args.charAt(0)){
 				case '#'://id
-					this.getId(args.substring(1));
+					this.elements=this.getId(args.substring(1));
+					return this;
 				break;
 				case '.'://class
-					this.getClass(document,args.substring(1));
+					this.elements=this.getClass(args.substring(1));
+					return this;
 				break;
 				default://tag
-					this.getTag(document,args);
+					this.elements=this.getTag(args);
+					return this;
 				break;
 			}
 		break;
@@ -33,27 +36,57 @@ jQuery.prototype.bindEvent=function(obj,events,fn){
 /************************************************/
 /****************selector start******************/
 jQuery.prototype.getId=function(id){
-	this.elements.push(document.getElementById(id));
-	return this;
+	var tmpElements=[];
+	tmpElements.push(document.getElementById(id));
+	return tmpElements;
 }
-jQuery.prototype.getClass=function(oParent,className){
-	var all=oParent.getElementsByTagName('*');
+jQuery.prototype.getClass=function(className,parent){
+	if(!parent)parent=document;
+	var all=parent.getElementsByTagName('*');
+	var tmpElements=[];
 	for(var i=0;i<all.length;i++){
 		if(all[i].className.match(className)){
-			this.elements.push(all[i]);
+			tmpElements.push(all[i]);
 		}
 	}
-	return this;
+	return tmpElements;
 }
-jQuery.prototype.getTag=function(oParent,tag){
-	var tags=oParent.getElementsByTagName(tag);
+jQuery.prototype.getTag=function(tag,parent){
+	if(!parent)parent=document;
+	var tags=parent.getElementsByTagName(tag);
+	var tmpElements=[];
 	for(var i=0;i<tags.length;i++){
-		this.elements.push(tags[i]);
+		tmpElements.push(tags[i]);
 	}
-	return this;
+	return tmpElements;
+}
+jQuery.prototype.find=function(args){
+	var self=this;
+	var subElement = [];//临时变量
+	for(var i=0;i<self.elements.length;i++){
+		switch(args.charAt(0)){
+			case '#'://id
+				self.getId(args.substring(1));
+			break;
+			case '.'://class
+				var tmpElements=self.getClass(args.substring(1),self.elements[i]);
+				for(var j=0;j<tmpElements.length;j++){
+					subElement.push(tmpElements[j]);
+				}
+			break;
+			default://tag
+				var tmpElements=self.getTag(args,self.elements[i]);
+				for(var j=0;j<tmpElements.length;j++){
+					subElement.push(tmpElements[j]);
+				}
+			break;
+		}
+	}
+	self.elements=subElement;
+
+	return self;
 }
 jQuery.prototype.css=function(attr,value){
-	console.log(this.elements.length)
 	for(var i=0;i<this.elements.length;i++){
 	if(arguments.length==1){
 		if(typeof window.getComputedStyle!='undefined'){//W3C
@@ -218,7 +251,7 @@ jQuery.prototype.drag=function(){
 			}
 			document.onmousemove=function(e){//此处给document绑定事件，是因为鼠标如果移动太快，会脱离当前元素
 				var e=e||window.event;
-				var left=e.clientX-disX;	//e.clientX跟屏幕左距离
+				var left=e.clientX-disX;	//e.clientX距屏幕左距离
 				var top=e.clientY-disY;
 				if(left<0){
 					left=0;
@@ -293,7 +326,7 @@ jQuery.prototype.dragEx=function(){
 			}
 			document.onmousemove=function(e){//此处给document绑定事件，是因为鼠标如果移动太快，会脱离当前元素
 				var e=e||window.event;
-				var left=e.clientX-disX;	//e.clientX跟屏幕左距离
+				var left=e.clientX-disX;	//e.clientX距屏幕左距离
 				var top=e.clientY-disY;
 				iSpeedX=e.clientX-prevX;
 				iSpeedY=e.clientY-prevY;

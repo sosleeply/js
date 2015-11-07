@@ -1,0 +1,36 @@
+<html>
+<head>
+<title></title>
+<script type="text/javascript" src="jquery.js"></script>
+<style type="text/css">
+*{margin:0;padding:0;}
+#container{width:1000px;border:1px solid red;margin:50px auto 0;position:relative;
+}
+#container img{position:absolute;}
+#loader{width:20px;height:20px;background:green;position:fixed;bottom:0;left:0;}
+</style>
+<script type="text/javascript">
+	$(function(){
+		var oContainer=$("#container");
+		var iWidth=200;//列宽
+		var iSpace=10;//列间隔
+		var iOuterWidth=iWidth+iSpace;//列实际宽
+		var icells=0;//总列
+		function setCells(){
+			icells=Math.floor($(window).getInner().width/iOuterWidth);
+			oContainer.css('width',iOuterWidth*icells-iSpace);
+			console.log(icells);
+		}
+		setCells();
+	})
+
+</script>
+</head>
+<body>
+<div id="container">
+	
+
+</div>
+<div id="loader"></div>
+</body>
+</html>

@@ -7,13 +7,24 @@
 </style>
 <script type="text/javascript">
 	$(function(){
-		//console.log($("#div1").css('background','green'));
-
-		$(".div1").center().fall();
+		$("div").find('.a').css('color','red')
 	});
 </script>
 </head>
 <body>
-<div class="div1"><img src='ball.png' /></div>
+
+<p id='p'>abc<span id='span'>span</span>
+<span id='span' class='a'>span</span>
+<span id='span2'>span</span>
+<span id='span3'>span</span>
+
+</p>
+<div>abc
+<span id='span' class='a'>span</span>
+<span id='span1' class='a'>span</span>
+<span id='span2' class='a'>span</span>
+<span id='span3'>span</span>
+
+</div>
 </body>
 </html>
