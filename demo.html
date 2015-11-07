@@ -1,38 +1,39 @@
 <html>
 <head>
+<meta charset='utf-8'>
 <title></title>
 <script type="text/javascript" src="jquery.js"></script>
 <style type="text/css">
-.div1{position:fixed;width:128px;height:128px;}
+ul{width:888px;margin:0 auto;list-style:none;margin-top:500px;}
+ul li{float:left;margin:8px;}
+ul li img{width:400px;}
 </style>
 <script type="text/javascript">
 	$(function(){
-		$("div div span").css('background','green')
-	});
+		//console.log($("ul").attr("_id"));
+		$("ul").attr("_id","abc");
+		console.log($("#form1").eq(0).serialize());
+	})
 </script>
 </head>
 <body>
-
-<div id="box">
-	<p id='p'>abc<span id='span'>span</span>
-	<span id='span' class='a'>span</span>
-	<span id='span2' class='a'>span</span>
-	<span id='span3'>span</span>
-
-	</p>
-	<p>abc<span id='span'>span</span>
-	<span id='span' class='a'>span</span>
-	<span id='span2'>span</span>
-	<span id='span3'>span</span>
-
-	</p>
-	<div>abc
-	<span id='span' class='a'>span</span>
-	<span id='span1' class='a'>span</span>
-	<span id='span2' class='a'>span</span>
-	<span id='span3'>span</span>
-
-	</div>
-</div>
+<form id="form1">
+<input type="text" name="userName" value="txx" />
+<input type="text" name="passWord" value="pwd" />
+<input type="checkbox" name="interesting" value="study" checked="true" />
+<input type="checkbox" name="interesting" value="play" checked="true" />
+<input type="checkbox" name="interesting" value="sing" checked="true" />
+<input type="radio" name="gender" value="0" checked="true" />
+</form>
+<ul _id="a">
+<li><img src="images/01.png" /></li>
+<li><img src="images/01.png" /></li>
+<li><img src="images/01.png" /></li>
+<li><img src="images/01.png" /></li>
+<li><img src="images/01.png" /></li>
+<li><img src="images/01.png" /></li>
+<li><img src="images/01.png" /></li>
+<li><img src="images/01.png" /></li>
+</ul>
 </body>
 </html>
