@@ -1,30 +1,70 @@
 
 function jQuery(args){
 	this.elements = [];
+	var self=this;
 	switch(typeof args){
 		case 'function':
-			this.bindEvent(window,'load',args);
+			self.bindEvent(window,'load',args);
 		break;
 		case 'string':
-			switch(args.charAt(0)){
-				case '#'://id
-					this.elements=this.getId(args.substring(1));
-					return this;
-				break;
-				case '.'://class
-					this.elements=this.getClass(args.substring(1));
-					return this;
-				break;
-				default://tag
-					this.elements=this.getTag(args);
-					return this;
-				break;
+			if(args.split(/\s+/g) && args.split(/\s+/g).length>1){
+				/*css*/
+				var _elements=args.split(/\s+/);
+				var _subElements=[];
+				var _node=[];/*存放父节点*/
+				for(var i=0;i<_elements.length;i++){
+					if(typeof _elements[i]==='string'&&_elements[i].replace(/\s+/)!=''){
+						if(_node.length===0)_node.push(document);
+						switch(_elements[i].charAt(0)){
+							case '#':/*id*/
+								_subElements=[];/*清空临时节点*/
+								_subElements=(self.getId(_elements[i].substring(1),document));
+								_node=_subElements;
+								break;
+							case '.':/*class*/
+								_subElements=[];
+								for(var j=0;j<_node.length;j++){
+									var tmpElements=self.getClass(_elements[i].substring(1),_node[j]);
+									for(var x=0;x<tmpElements.length;x++){
+										_subElements.push(tmpElements[x]);
+									}
+								}
+								_node=_subElements;
+								break;
+							default:/*tag*/
+								_subElements=[];
+								for(var j=0;j<_node.length;j++){
+									var tmpElements=self.getTag(_elements[i],_node[j]);
+									for(var x=0;x<tmpElements.length;x++){
+										_subElements.push(tmpElements[x]);
+									}
+								}
+								_node=_subElements;
+								break;
+						}
+					}
+				}
+				self.elements=_subElements;
+			}else{
+				/*find*/
+				switch(args.charAt(0)){
+					case '#':/*id*/
+						self.elements=self.getId(args.substring(1));
+						break;
+					case '.':/*class*/
+						self.elements=self.getClass(args.substring(1));
+						break;
+					default:/*tag*/
+						self.elements=self.getTag(args);
+						break;
+				}
 			}
-		break;
+			break;
 		case 'object':
-			this.elements.push(args);
-		break;
+			self.elements.push(args);
+			break;
 	}
+	return self;
 }
 jQuery.prototype.bindEvent=function(obj,events,fn){
 	if(obj.addEventListener){
@@ -35,9 +75,10 @@ jQuery.prototype.bindEvent=function(obj,events,fn){
 }
 /************************************************/
 /****************selector start******************/
-jQuery.prototype.getId=function(id){
+jQuery.prototype.getId=function(id,parent){
+	if(!parent)parent=document;
 	var tmpElements=[];
-	tmpElements.push(document.getElementById(id));
+	tmpElements.push(parent.getElementById(id));
 	return tmpElements;
 }
 jQuery.prototype.getClass=function(className,parent){
@@ -62,24 +103,24 @@ jQuery.prototype.getTag=function(tag,parent){
 }
 jQuery.prototype.find=function(args){
 	var self=this;
-	var subElement = [];//临时变量
+	var subElement = [];
 	for(var i=0;i<self.elements.length;i++){
 		switch(args.charAt(0)){
-			case '#'://id
+			case '#':
 				self.getId(args.substring(1));
-			break;
-			case '.'://class
+				break;
+			case '.':
 				var tmpElements=self.getClass(args.substring(1),self.elements[i]);
 				for(var j=0;j<tmpElements.length;j++){
 					subElement.push(tmpElements[j]);
 				}
-			break;
-			default://tag
+				break;
+			default:
 				var tmpElements=self.getTag(args,self.elements[i]);
 				for(var j=0;j<tmpElements.length;j++){
 					subElement.push(tmpElements[j]);
 				}
-			break;
+				break;
 		}
 	}
 	self.elements=subElement;
@@ -88,14 +129,14 @@ jQuery.prototype.find=function(args){
 }
 jQuery.prototype.css=function(attr,value){
 	for(var i=0;i<this.elements.length;i++){
-	if(arguments.length==1){
-		if(typeof window.getComputedStyle!='undefined'){//W3C
-			return window.getComputedStyle(this.elements[i],null)[attr];
-		}else if(typeof this.elements[i].currentStyle!='undefined'){//IE
-			return this.elements[i].currentStyle[attr];
+		if(arguments.length==1){
+			if(typeof window.getComputedStyle!='undefined'){/*W3C*/
+				return window.getComputedStyle(this.elements[i],null)[attr];
+			}else if(typeof this.elements[i].currentStyle!='undefined'){/*IE*/
+				return this.elements[i].currentStyle[attr];
+			}
 		}
-	}
-	this.elements[i].style[attr]=value;
+		this.elements[i].style[attr]=value;
 	}
 	return this;
 }
@@ -231,9 +272,9 @@ jQuery.prototype.getInner=function(){
 }
 jQuery.prototype.preDef=function(e){
 	var e=e||window.event;
-	if(typeof e.preventDefault!='undefined'){//W3C
+	if(typeof e.preventDefault!='undefined'){/*W3C*/
 		e.preventDefault();
-	}else{//IE
+	}else{/*IE*/
 		e.returnValue=false;
 	}
 }
@@ -241,17 +282,17 @@ jQuery.prototype.drag=function(){
 	var self=this;
 	for(var i=0;i<this.elements.length;i++){
 		this.elements[i].onmousedown=function(e){
-			self.preDef(e);//阻止浏览器默认行为
+			self.preDef(e);/*阻止浏览器默认行为*/
 			var _this=this;
 			var e=e||window.event;
 			var disX=e.clientX-_this.offsetLeft;
 			var disY=e.clientY-_this.offsetTop;
 			if(typeof _this.setCapture!='undefined'){
-				_this.setCapture();//全局捕获
+				_this.setCapture();/*全局捕获*/
 			}
-			document.onmousemove=function(e){//此处给document绑定事件，是因为鼠标如果移动太快，会脱离当前元素
+			document.onmousemove=function(e){/*此处给document绑定事件，是因为鼠标如果移动太快，会脱离当前元素*/
 				var e=e||window.event;
-				var left=e.clientX-disX;	//e.clientX距屏幕左距离
+				var left=e.clientX-disX;	/*e.clientX距屏幕左距离*/
 				var top=e.clientY-disY;
 				if(left<0){
 					left=0;
@@ -270,7 +311,7 @@ jQuery.prototype.drag=function(){
 				document.onmousemove=null;
 				document.onmouseup=null;
 				if(typeof _this.releaseCapture!='undefined'){
-					_this.releaseCapture();//释放全局捕获
+					_this.releaseCapture();/*释放全局捕获*/
 				}
 			}
 		}
@@ -282,13 +323,13 @@ jQuery.prototype.dragEx=function(){
 	var self=this;
 	function startMove(obj,iSpeedX,iSpeedY){
 		obj.timer=setInterval(function(){
-			iSpeedY+=3;//重力，Y++，加速向下
+			iSpeedY+=3;/*重力，Y++，加速向下*/
 			var left=obj.offsetLeft+iSpeedX;
 			var top=obj.offsetTop+iSpeedY;
 			if(left<0){
 				left=0;
 				iSpeedX=-iSpeedX;
-				iSpeedX*=0.75;//速度逐步损失
+				iSpeedX*=0.75;/*速度逐步损失*/
 			}else if(left>self.getInner().width-obj.offsetWidth){
 				left=self.getInner().width-obj.offsetWidth;
 				iSpeedX=-iSpeedX;
@@ -302,35 +343,34 @@ jQuery.prototype.dragEx=function(){
 				top=self.getInner().height-obj.offsetHeight;
 				iSpeedY=-iSpeedY;
 				iSpeedY*=0.75;
-				iSpeedX*=0.75;//iSpeedY+=3，重力。底部碰撞概率会增大，增加X损失
+				iSpeedX*=0.75;/*iSpeedY+=3，重力。底部碰撞概率会增大，增加X损失*/
 			}
 			obj.style.left=left+'px';
 			obj.style.top=top+'px';
-			//console.log(obj.style.left)
 		},50);
 	}
 	for(var i=0;i<this.elements.length;i++){
 		this.elements[i].onmousedown=function(e){
-			self.preDef(e);//阻止浏览器默认行为
+			self.preDef(e);
 			var _this=this;
 			clearInterval(_this.timer);
 			var e=e||window.event;
 			var disX=e.clientX-_this.offsetLeft;
 			var disY=e.clientY-_this.offsetTop;
-			var prevX=e.clientX;//初始点
+			var prevX=e.clientX;/*初始点*/
 			var prevY=e.clientY;
 			var iSpeedX=0;
 			var iSpeedY=0;
 			if(typeof _this.setCapture!='undefined'){
-				_this.setCapture();//全局捕获
+				_this.setCapture();
 			}
-			document.onmousemove=function(e){//此处给document绑定事件，是因为鼠标如果移动太快，会脱离当前元素
+			document.onmousemove=function(e){
 				var e=e||window.event;
-				var left=e.clientX-disX;	//e.clientX距屏幕左距离
+				var left=e.clientX-disX;
 				var top=e.clientY-disY;
 				iSpeedX=e.clientX-prevX;
 				iSpeedY=e.clientY-prevY;
-				prevX=e.clientX;//保存前一个点
+				prevX=e.clientX;/*保存前一个点*/
 				prevY=e.clientY;
 
 				if(left<0){
@@ -350,7 +390,7 @@ jQuery.prototype.dragEx=function(){
 				document.onmousemove=null;
 				document.onmouseup=null;
 				if(typeof _this.releaseCapture!='undefined'){
-					_this.releaseCapture();//释放全局捕获
+					_this.releaseCapture();/*释放全局捕获*/
 				}
 				startMove(_this,iSpeedX,iSpeedY);
 			}
@@ -359,7 +399,7 @@ jQuery.prototype.dragEx=function(){
 
 	return self;
 }
-jQuery.prototype.run=function(speed,interval){//多元素同时运动待解决
+jQuery.prototype.run=function(speed,interval){/*多元素同时运动待解决，元素碰撞未实现*/
 	if(!speed)speed=10;
 	if(!interval)interval=50;
 	var self=this;
@@ -396,7 +436,7 @@ jQuery.prototype.run=function(speed,interval){//多元素同时运动待解决
 
 	return self;
 }
-jQuery.prototype.fall=function(speed,interval){//自由落体，待解决
+jQuery.prototype.fall=function(speed,interval){/*自由落体，待解决*/
 	if(!speed)speed=5;
 	if(!interval)interval=30;
 	var self=this;
@@ -410,12 +450,12 @@ jQuery.prototype.fall=function(speed,interval){//自由落体，待解决
 	};
 	function startMove(){
 		timer=setInterval(function(){
-			iSpeed+=speed;//Y++,向下加速
+			iSpeed+=speed;
 			var top=obj.offsetTop+iSpeed;
 			if(top>self.getInner().height-height){
 				top=self.getInner().height-height
 				iSpeed=-iSpeed;
-				iSpeed*=0.75;//速度损失
+				iSpeed*=0.75;
 			}
 			obj.style.top=top+'px';
 		},interval);
@@ -427,7 +467,7 @@ jQuery.prototype.fall=function(speed,interval){//自由落体，待解决
 /***********************************************/
 /***********************************************/
 /**********trigonometric function start*********/
-jQuery.prototype.menu=function(){//未完成
+jQuery.prototype.menu=function(){
 	var self=this;
 	document.onmousemove=function(e){
 		var e=e||window.event;
