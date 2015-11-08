@@ -604,7 +604,6 @@ jQuery.prototype.menu=function(){
 
 	return self;
 }
-
 /**********trigonometric function end***********/
 /***********************************************/
 /***********************************************/
@@ -616,7 +615,11 @@ $.browser=function(){
 	var ua=navigator.userAgent.toLowerCase();
 	return ua;
 }
-
+$.each=function(arr,fn){
+	for(var i=0;i<arr.length;i++){
+		fn(arr[i],i);
+	}
+}
 /****************extend end*********************/
 /***********************************************/
 function $(args){
