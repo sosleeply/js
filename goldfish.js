@@ -1,5 +1,5 @@
-
-function jQuery(args){
+/**/
+function goldfish(args){
 	this.elements = [];
 	var self=this;
 	switch(typeof args){
@@ -66,7 +66,7 @@ function jQuery(args){
 	}
 	return self;
 }
-jQuery.prototype.bindEvent=function(obj,events,fn){
+goldfish.prototype.bindEvent=function(obj,events,fn){
 	if(obj.addEventListener){
 		obj.addEventListener(events,fn,false);
 	}else{
@@ -75,13 +75,13 @@ jQuery.prototype.bindEvent=function(obj,events,fn){
 }
 /************************************************/
 /****************selector start******************/
-jQuery.prototype.getId=function(id,parent){
+goldfish.prototype.getId=function(id,parent){
 	if(!parent)parent=document;
 	var tmpElements=[];
 	tmpElements.push(parent.getElementById(id));
 	return tmpElements;
 }
-jQuery.prototype.getClass=function(className,parent){
+goldfish.prototype.getClass=function(className,parent){
 	if(!parent)parent=document;
 	var all=parent.getElementsByTagName('*');
 	var tmpElements=[];
@@ -92,7 +92,7 @@ jQuery.prototype.getClass=function(className,parent){
 	}
 	return tmpElements;
 }
-jQuery.prototype.getTag=function(tag,parent){
+goldfish.prototype.getTag=function(tag,parent){
 	if(!parent)parent=document;
 	var tags=parent.getElementsByTagName(tag);
 	var tmpElements=[];
@@ -101,7 +101,7 @@ jQuery.prototype.getTag=function(tag,parent){
 	}
 	return tmpElements;
 }
-jQuery.prototype.find=function(args){
+goldfish.prototype.find=function(args){
 	var self=this;
 	var subElement = [];
 	for(var i=0;i<self.elements.length;i++){
@@ -128,14 +128,14 @@ jQuery.prototype.find=function(args){
 	return self;
 }
 /*internal function*/
-jQuery.prototype.getStyle=function(obj,attr){
+goldfish.prototype.getStyle=function(obj,attr){
 	if(typeof window.getComputedStyle!='undefined'){/*W3C*/
 		return window.getComputedStyle(obj,null)[attr];
 	}else if(typeof obj.currentStyle!='undefined'){/*IE*/
 		return obj.currentStyle[attr];
 	}
 }
-jQuery.prototype.css=function(attr,value){
+goldfish.prototype.css=function(attr,value){
 	if(typeof attr=='string'){
 		for(var i=0;i<this.elements.length;i++){
 			if(arguments.length==1){
@@ -154,7 +154,7 @@ jQuery.prototype.css=function(attr,value){
 	
 	return this;
 }
-jQuery.prototype.attr=function(attr,value){
+goldfish.prototype.attr=function(attr,value){
 	if(typeof attr=='string'){
 		for(var i=0;i<this.elements.length;i++){
 			if(arguments.length==1){
@@ -173,7 +173,7 @@ jQuery.prototype.attr=function(attr,value){
 	
 	return this;
 }
-jQuery.prototype.html=function(str){
+goldfish.prototype.html=function(str){
 	for(var i=0;i<this.elements.length;i++){
 		if(arguments.length==0){
 			return this.elements[i].innerHTML;
@@ -182,7 +182,7 @@ jQuery.prototype.html=function(str){
 	}
 	return this;
 }
-jQuery.prototype.top=function(){
+goldfish.prototype.top=function(){
 	var top=this.elements[0].offsetTop;
 	var parent=this.elements[0].offsetParent;
 	while(parent!=null){
@@ -191,7 +191,7 @@ jQuery.prototype.top=function(){
 	}
 	return top;
 }
-jQuery.prototype.left=function(){
+goldfish.prototype.left=function(){
 	var left=this.elements[0].offsetLeft;
 	var parent=this.elements[0].offsetParent;
 	while(parent!=null){
@@ -200,23 +200,35 @@ jQuery.prototype.left=function(){
 	}
 	return left;
 }
-jQuery.prototype.width=function(){
-	return this.elements[0].offsetWidth;
+goldfish.prototype.width=function(size){
+	for(var i=0;i<this.elements.length;i++){
+		if(arguments.length==0){
+			return parseInt(this.elements[i].offsetWidth);
+		}
+		this.elements[i].style.width=size+'px';
+	}
+	return this;
 }
-jQuery.prototype.height=function(){
-	return this.elements[0].offsetHeight;
+goldfish.prototype.height=function(size){
+	for(var i=0;i<this.elements.length;i++){
+		if(arguments.length==0){
+			return parseInt(this.elements[i].offsetHeight);
+		}
+		this.elements[i].style.height=size+'px';
+	}
+	return this;
 }
-jQuery.prototype.innerWidth=function(){
+goldfish.prototype.innerWidth=function(){
 	return this.elements[0].innerWidth;
 }
-jQuery.prototype.innerHeight=function(){
+goldfish.prototype.innerHeight=function(){
 	return this.elements[0].innerHeight;
 }
-jQuery.prototype.scrollTop=function(){
+goldfish.prototype.scrollTop=function(){
 	var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
 	return scrollTop;
 }
-jQuery.prototype.offset=function(){
+goldfish.prototype.offset=function(){
 	return {
 		top:this.elements[0].offsetTop,
 		left:this.elements[0].offsetLeft,
@@ -224,16 +236,16 @@ jQuery.prototype.offset=function(){
 		height:this.elements[0].offsetHeight
 	}
 }
-jQuery.prototype.scrollHeight=function(){
+goldfish.prototype.scrollHeight=function(){
 	return document.body.scrollHeight;
 }
-jQuery.prototype.scrollLeft=function(){
+goldfish.prototype.scrollLeft=function(){
 	return  document.body.scrollLeft;
 }
-jQuery.prototype.length=function(){
+goldfish.prototype.length=function(){
 	return this.elements.length;
 }
-jQuery.prototype.append=function(obj){
+goldfish.prototype.append=function(obj){
 	for(var i=0;i<this.elements.length;i++){
 		this.elements[i].appendChild(obj);
 	}
@@ -243,33 +255,33 @@ jQuery.prototype.append=function(obj){
 /***********************************************/
 /***********************************************/
 /*****************events start******************/
-jQuery.prototype.on=function(events,fn){
+goldfish.prototype.on=function(events,fn){
 	for(var i=0;i<this.elements.length;i++){
 		this.bindEvent(this.elements[i],events,fn);
 	}
 	return this;
 }
-jQuery.prototype.click=function(fn){
+goldfish.prototype.click=function(fn){
 	this.on('click',fn);
 
 	return this;
 }
-jQuery.prototype.mouseover=function(fn){
+goldfish.prototype.mouseover=function(fn){
 	this.on('mouseover',fn);
 
 	return this;
 }
-jQuery.prototype.mouseout=function(fn){
+goldfish.prototype.mouseout=function(fn){
 	this.on('mouseout',fn);
 
 	return this;
 }
-jQuery.prototype.resize=function(fn){
+goldfish.prototype.resize=function(fn){
 	this.bindEvent(window,'resize',fn);
 
 	return this;
 }
-jQuery.prototype.hover=function(over,out){
+goldfish.prototype.hover=function(over,out){
 	this.on('mouseover',over);
 	this.on('mouseout',out);
 
@@ -279,51 +291,51 @@ jQuery.prototype.hover=function(over,out){
 /***********************************************/
 /***********************************************/
 /*****************function start****************/
-jQuery.prototype.show=function(){
+goldfish.prototype.show=function(){
 	for(var i=0;i<this.elements.length;i++){
 		this.elements[i].style.display='block'
 	}
 	return this;
 }
-jQuery.prototype.hide=function(){
+goldfish.prototype.hide=function(){
 	for(var i=0;i<this.elements.length;i++){
 		this.elements[i].style.display='none'
 	}
 	return this;
 }
-jQuery.prototype.eq=function(num){
+goldfish.prototype.eq=function(num){
 	var element=this.elements[num];
 	this.elements=[];
 	this.elements[0]=element;
 	return this;
 }
-jQuery.prototype.first=function(){
+goldfish.prototype.first=function(){
 	var element=this.elements[0];
 	this.elements=[];
 	this.elements[0]=element;
 	return this;
 }
-jQuery.prototype.last=function(){
+goldfish.prototype.last=function(){
 	var element=this.elements[this.elements.length-1];
 	this.elements=[];
 	this.elements[0]=element;
 	return this;
 }
-jQuery.prototype.addClass=function(className){
+goldfish.prototype.addClass=function(className){
 	for(var i=0;i<this.elements.length;i++){
 		if(!this.elements[i].className.match(new RegExp('(\\s+|^)'+className+'(\\s+|$)')))
 			this.elements[i].className += ' ' + className;
 	}
 	return this;
 }
-jQuery.prototype.removeClass=function(className){
+goldfish.prototype.removeClass=function(className){
 	for(var i=0;i<this.elements.length;i++){
 		if(this.elements[i].className.match(new RegExp('(\\s+|^)'+className+'(\\s+|$)')))
 			this.elements[i].className = this.elements[i].className.replace(new RegExp('(\\s+|^)'+className+'(\\s+|$)'),'');
 	}
 	return this;
 }
-jQuery.prototype.center=function(){
+goldfish.prototype.center=function(){
 	for(var i=0;i<this.elements.length;i++){
 		var obj=this.elements[i];
 		var width=obj.clientWidth;
@@ -336,14 +348,14 @@ jQuery.prototype.center=function(){
 	
 	return this;
 }
-jQuery.prototype.remove=function(){
+goldfish.prototype.remove=function(){
 	for(var i=0;i<this.elements.length;i++){
 		this.elements[i].remove();
 	}
 
 	return this;
 }
-jQuery.prototype.serialize=function(){
+goldfish.prototype.serialize=function(){
 	var form=this.elements[0];
 	var parts={};
 	for(var i=0;i<form.elements.length;i++){
@@ -385,7 +397,7 @@ jQuery.prototype.serialize=function(){
 	}
 	return parts;
 }
-jQuery.prototype.each=function(fn){
+goldfish.prototype.each=function(fn){
 	for(var i=0;i<this.elements.length;i++){
 		fn(this.elements[i],i);
 	}
@@ -395,7 +407,7 @@ jQuery.prototype.each=function(fn){
 /***********************************************/
 /***********************************************/
 /****************plugin end*********************/
-jQuery.prototype.getInner=function(){
+goldfish.prototype.getInner=function(){
 	if(typeof window.innerWidth!='undefined'){
 		return{
 			width:window.innerWidth,
@@ -408,7 +420,7 @@ jQuery.prototype.getInner=function(){
 		}
 	}
 }
-jQuery.prototype.preDef=function(e){
+goldfish.prototype.preDef=function(e){
 	var e=e||window.event;
 	if(typeof e.preventDefault!='undefined'){/*W3C*/
 		e.preventDefault();
@@ -416,21 +428,83 @@ jQuery.prototype.preDef=function(e){
 		e.returnValue=false;
 	}
 }
-jQuery.prototype.drag=function(){
+goldfish.prototype.animate=function(args){
+	var self=this;
+	var speed=args['speed'];
+	var interval=args['interval'];
+	if(typeof speed=='undefined')speed=50;
+	if(typeof interval=='undefined')interval=30;
+	for(var i=0;i<this.elements.length;i++){
+		var obj=this.elements[i];
+		var targetX=args['left'];
+		var targetY=args['top'];
+		if(targetX<obj.offsetLeft){
+			obj.speedX=-speed;
+		}else{
+			obj.speedX=speed;
+		}
+		if(targetY<obj.offsetTop){
+			obj.speedY=-speed;
+		}else{
+			obj.speedY=speed;
+		}
+		clearInterval(obj.timer);
+		obj.timer=setInterval(function(){
+			if(typeof args['left']!='undefined'){
+				if(obj.speedX>0){
+					if(obj.offsetLeft>=targetX){
+						obj.style.left=targetX+'px';
+						obj.speedX=0;
+					}
+				}else{
+					if(obj.offsetLeft<=targetX){
+						obj.style.left=targetX+'px';
+						obj.speedX=0;
+					}
+				}
+				obj.style.left=obj.offsetLeft+obj.speedX+'px';
+			}else{
+				obj.speedX=0;
+			}
+			if(typeof args['top']!='undefined'){
+				if(obj.speedY>0){
+					if(obj.offsetTop>=targetY){
+						obj.style.top=targetY+'px';
+						obj.speedY=0;
+					}
+				}else{
+					if(obj.offsetTop<=targetY){
+						obj.style.top=targetY+'px';
+						obj.speedY=0;
+					}
+				}
+				obj.style.top=obj.offsetTop+obj.speedY+'px';
+			}else{
+				obj.speedY=0;
+			}
+			if(obj.speedX===0&&obj.speedY===0){
+				clearInterval(obj.timer);
+			}
+		},interval);
+	}
+
+	return self;
+}
+goldfish.prototype.drag=function(){
 	var self=this;
 	for(var i=0;i<this.elements.length;i++){
 		this.elements[i].onmousedown=function(e){
-			self.preDef(e);/*阻止浏览器默认行为*/
+			self.preDef(e);
 			var _this=this;
 			var e=e||window.event;
 			var disX=e.clientX-_this.offsetLeft;
 			var disY=e.clientY-_this.offsetTop;
 			if(typeof _this.setCapture!='undefined'){
-				_this.setCapture();/*全局捕获*/
+				_this.setCapture();
 			}
-			document.onmousemove=function(e){/*此处给document绑定事件，是因为鼠标如果移动太快，会脱离当前元素*/
+			document.onmousemove=function(e){
 				var e=e||window.event;
-				var left=e.clientX-disX;	/*e.clientX距屏幕左距离*/
+				var left=e.clientX-disX;	
 				var top=e.clientY-disY;
 				if(left<0){
 					left=0;
@@ -449,7 +523,7 @@ jQuery.prototype.drag=function(){
 				document.onmousemove=null;
 				document.onmouseup=null;
 				if(typeof _this.releaseCapture!='undefined'){
-					_this.releaseCapture();/*释放全局捕获*/
+					_this.releaseCapture();
 				}
 			}
 		}
@@ -457,17 +531,17 @@ jQuery.prototype.drag=function(){
 
 	return self;
 }
-jQuery.prototype.dragEx=function(){
+goldfish.prototype.dragEx=function(){
 	var self=this;
 	function startMove(obj,iSpeedX,iSpeedY){
 		obj.timer=setInterval(function(){
-			iSpeedY+=3;/*重力，Y++，加速向下*/
+			iSpeedY+=3;
 			var left=obj.offsetLeft+iSpeedX;
 			var top=obj.offsetTop+iSpeedY;
 			if(left<0){
 				left=0;
 				iSpeedX=-iSpeedX;
-				iSpeedX*=0.75;/*速度逐步损失*/
+				iSpeedX*=0.75;
 			}else if(left>self.getInner().width-obj.offsetWidth){
 				left=self.getInner().width-obj.offsetWidth;
 				iSpeedX=-iSpeedX;
@@ -481,7 +555,7 @@ jQuery.prototype.dragEx=function(){
 				top=self.getInner().height-obj.offsetHeight;
 				iSpeedY=-iSpeedY;
 				iSpeedY*=0.75;
-				iSpeedX*=0.75;/*iSpeedY+=3，重力。底部碰撞概率会增大，增加X损失*/
+				iSpeedX*=0.75;
 			}
 			obj.style.left=left+'px';
 			obj.style.top=top+'px';
@@ -495,7 +569,7 @@ jQuery.prototype.dragEx=function(){
 			var e=e||window.event;
 			var disX=e.clientX-_this.offsetLeft;
 			var disY=e.clientY-_this.offsetTop;
-			var prevX=e.clientX;/*初始点*/
+			var prevX=e.clientX;
 			var prevY=e.clientY;
 			var iSpeedX=0;
 			var iSpeedY=0;
@@ -508,7 +582,7 @@ jQuery.prototype.dragEx=function(){
 				var top=e.clientY-disY;
 				iSpeedX=e.clientX-prevX;
 				iSpeedY=e.clientY-prevY;
-				prevX=e.clientX;/*保存前一个点*/
+				prevX=e.clientX;
 				prevY=e.clientY;
 
 				if(left<0){
@@ -528,7 +602,7 @@ jQuery.prototype.dragEx=function(){
 				document.onmousemove=null;
 				document.onmouseup=null;
 				if(typeof _this.releaseCapture!='undefined'){
-					_this.releaseCapture();/*释放全局捕获*/
+					_this.releaseCapture();
 				}
 				startMove(_this,iSpeedX,iSpeedY);
 			}
@@ -537,7 +611,7 @@ jQuery.prototype.dragEx=function(){
 
 	return self;
 }
-jQuery.prototype.run=function(speed,interval){/*多元素同时运动待解决，元素碰撞未实现*/
+goldfish.prototype.run=function(speed,interval){/*多元素同时运动待解决，元素碰撞未实现*/
 	if(!speed)speed=10;
 	if(!interval)interval=50;
 	var self=this;
@@ -574,7 +648,7 @@ jQuery.prototype.run=function(speed,interval){/*多元素同时运动待解决�
 
 	return self;
 }
-jQuery.prototype.fall=function(speed,interval){/*自由落体，待解决*/
+goldfish.prototype.fall=function(speed,interval){/*自由落体，待解决*/
 	if(!speed)speed=5;
 	if(!interval)interval=30;
 	var self=this;
@@ -605,7 +679,7 @@ jQuery.prototype.fall=function(speed,interval){/*自由落体，待解决*/
 /***********************************************/
 /***********************************************/
 /**********trigonometric function start*********/
-jQuery.prototype.menu=function(){
+goldfish.prototype.menu=function(){
 	var self=this;
 	document.onmousemove=function(e){
 		var e=e||window.event;
@@ -647,5 +721,5 @@ $.each=function(arr,fn){
 /****************extend end*********************/
 /***********************************************/
 function $(args){
-	return new jQuery(args);
+	return new goldfish(args);
 }
