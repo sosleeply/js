@@ -436,17 +436,17 @@ goldfish.prototype.animate=function(args){
 	if(typeof interval=='undefined')interval=30;
 	for(var i=0;i<this.elements.length;i++){
 		var obj=this.elements[i];
-		obj.speedX=speed;
-		obj.speedY=speed;
 		var targetX=args['left'];
 		var targetY=args['top'];
-		var left=obj.offsetLeft;
-		var top=obj.offsetTop;
-		if(targetX<left){
+		if(targetX<obj.offsetLeft){
 			obj.speedX=-speed;
+		}else{
+			obj.speedX=speed;
 		}
-		if(targetY<top){
+		if(targetY<obj.offsetTop){
 			obj.speedY=-speed;
+		}else{
+			obj.speedY=speed;
 		}
 		clearInterval(obj.timer);
 		obj.timer=setInterval(function(){
@@ -494,17 +494,17 @@ goldfish.prototype.drag=function(){
 	var self=this;
 	for(var i=0;i<this.elements.length;i++){
 		this.elements[i].onmousedown=function(e){
-			self.preDef(e);/*阻止浏览器默认行为*/
+			self.preDef(e);
 			var _this=this;
 			var e=e||window.event;
 			var disX=e.clientX-_this.offsetLeft;
 			var disY=e.clientY-_this.offsetTop;
 			if(typeof _this.setCapture!='undefined'){
-				_this.setCapture();/*全局捕获*/
+				_this.setCapture();
 			}
-			document.onmousemove=function(e){/*此处给document绑定事件，是因为鼠标如果移动太快，会脱离当前元素*/
+			document.onmousemove=function(e){
 				var e=e||window.event;
-				var left=e.clientX-disX;	/*e.clientX距屏幕左距离*/
+				var left=e.clientX-disX;	
 				var top=e.clientY-disY;
 				if(left<0){
 					left=0;
@@ -523,7 +523,7 @@ goldfish.prototype.drag=function(){
 				document.onmousemove=null;
 				document.onmouseup=null;
 				if(typeof _this.releaseCapture!='undefined'){
-					_this.releaseCapture();/*释放全局捕获*/
+					_this.releaseCapture();
 				}
 			}
 		}
@@ -535,13 +535,13 @@ goldfish.prototype.dragEx=function(){
 	var self=this;
 	function startMove(obj,iSpeedX,iSpeedY){
 		obj.timer=setInterval(function(){
-			iSpeedY+=3;/*重力，Y++，加速向下*/
+			iSpeedY+=3;
 			var left=obj.offsetLeft+iSpeedX;
 			var top=obj.offsetTop+iSpeedY;
 			if(left<0){
 				left=0;
 				iSpeedX=-iSpeedX;
-				iSpeedX*=0.75;/*速度逐步损失*/
+				iSpeedX*=0.75;
 			}else if(left>self.getInner().width-obj.offsetWidth){
 				left=self.getInner().width-obj.offsetWidth;
 				iSpeedX=-iSpeedX;
@@ -555,7 +555,7 @@ goldfish.prototype.dragEx=function(){
 				top=self.getInner().height-obj.offsetHeight;
 				iSpeedY=-iSpeedY;
 				iSpeedY*=0.75;
-				iSpeedX*=0.75;/*iSpeedY+=3，重力。底部碰撞概率会增大，增加X损失*/
+				iSpeedX*=0.75;
 			}
 			obj.style.left=left+'px';
 			obj.style.top=top+'px';
@@ -569,7 +569,7 @@ goldfish.prototype.dragEx=function(){
 			var e=e||window.event;
 			var disX=e.clientX-_this.offsetLeft;
 			var disY=e.clientY-_this.offsetTop;
-			var prevX=e.clientX;/*初始点*/
+			var prevX=e.clientX;
 			var prevY=e.clientY;
 			var iSpeedX=0;
 			var iSpeedY=0;
@@ -582,7 +582,7 @@ goldfish.prototype.dragEx=function(){
 				var top=e.clientY-disY;
 				iSpeedX=e.clientX-prevX;
 				iSpeedY=e.clientY-prevY;
-				prevX=e.clientX;/*保存前一个点*/
+				prevX=e.clientX;
 				prevY=e.clientY;
 
 				if(left<0){
@@ -602,7 +602,7 @@ goldfish.prototype.dragEx=function(){
 				document.onmousemove=null;
 				document.onmouseup=null;
 				if(typeof _this.releaseCapture!='undefined'){
-					_this.releaseCapture();/*释放全局捕获*/
+					_this.releaseCapture();
 				}
 				startMove(_this,iSpeedX,iSpeedY);
 			}
