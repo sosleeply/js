@@ -7,7 +7,7 @@
 *{margin:0;padding:0;}
 #container{width:1000px;border:1px solid red;margin:50px auto 0;position:relative;
 }
-#container img{position:absolute;width:200px;}
+#container img{position:absolute;}
 #loader{width:20px;height:20px;background:green;position:fixed;bottom:0;left:0;}
 </style>
 <script type="text/javascript">
@@ -36,33 +36,41 @@
 		}
 		//console.log(arrLeft);
 
+
+		function getMain(){
+			var iv=arrTop[0];
+			var index=0;
+			for(var i=1;i<arrTop.length;i++){
+				if(arrTop[i]<iv){
+					iv=arrTop[i];
+					index=i;
+				}
+			}
+			return index;
+		}
+
 		function getData(){
 			if(!iBtn)return;
 			iBtn=false;
-
-			for(var i=0;i<data.length;i++){
+			$.each(data,function(obj,index){
 				var oImg=document.createElement('img');
-				if(i%2==0){
-					$(oImg).attr('src','images/01.png');
-				}else{
-					$(oImg).attr('src','images/02.png');
-				}
-				
-				//console.log(oImg);
+				$(oImg).attr('src',obj.url);
+
 				oContainer.append(oImg);
 
-				var iHeight=iWidth/oImg.offsetWidth*oImg.offsetHeight;
+				var iMinIndex=getMain();
+				var iHeight=iWidth/(obj.width)*(obj.height);
+				console.log(iHeight+"---"+iWidth);
 
 				$(oImg).css('width',iWidth).css('height',iHeight);
-				//获取arrTop最小值所在的位置
-				var iMinIndex=getMain();
 				$(oImg).css('left',arrLeft[iMinIndex]).css('top',arrTop[iMinIndex]);
-
 				arrTop[iMinIndex]+=iHeight+10;
-			}
+			})
+
 			iBtn=true;
 		}
 		getData();
+
 		$(window).on('scroll',function(){
 			var iH=$(window).scrollTop()+$(window).innerHeight();
 			var iMinIndex=getMain();
@@ -72,8 +80,7 @@
 				getData();
 			}
 		});
-
-		window.onresize=function(){
+		$(window).on('resize',function(){
 			var iOldCells=icells;
 			setCells();
 			var iH=$(window).scrollTop()+$(window).innerHeight();
@@ -97,20 +104,9 @@
 				$(obj).css('left',arrLeft[iMinIndex]).css('top',arrTop[iMinIndex]);
 				arrTop[iMinIndex]+=($(obj).height()+10);
 			})
-		}
 
+		})
 
-		function getMain(){
-		var iv=arrTop[0];
-		var index=0;
-		for(var i=1;i<arrTop.length;i++){
-			if(arrTop[i]<iv){
-				iv=arrTop[i];
-				index=i;
-			}
-		}
-		return index;
-	}
 	})
 
 </script>
@@ -124,294 +120,424 @@
 <script type="text/javascript">
 var data=[
 		{
-			id:1,
-			title:'test',
-			url:'images/01.png',
+			"id":1,
+			"title":"test",
+			"url":"images/01.png",
+			"width":463,
+			"height":394
 		},
 		{
-			id:2,
-			title:'test',
-			url:'images/02.png',
+			"id":2,
+			"title":"test",
+			"url":"images/02.png",
+			"width":496,
+			"height":825
 		},
 		{
-			id:3,
-			title:'test',
-			url:'images/03.png',
+			"id":3,
+			"title":"test",
+			"url":"images/03.png",
+			"width":476,
+			"height":386
 		},
 		{
-			id:4,
-			title:'test',
-			url:'images/04.png',
+			"id":4,
+			"title":"test",
+			"url":"images/04.png",
+			"width":415,
+			"height":382
 		},
 		{
-			id:1,
-			title:'test',
-			url:'images/01.png',
+			"id":1,
+			"title":"test",
+			"url":"images/01.png",
+			"width":463,
+			"height":394
 		},
 		{
-			id:2,
-			title:'test',
-			url:'images/02.png',
+			"id":2,
+			"title":"test",
+			"url":"images/02.png",
+			"width":496,
+			"height":825
 		},
 		{
-			id:3,
-			title:'test',
-			url:'images/03.png',
+			"id":3,
+			"title":"test",
+			"url":"images/03.png",
+			"width":476,
+			"height":386
 		},
 		{
-			id:4,
-			title:'test',
-			url:'images/04.png',
+			"id":4,
+			"title":"test",
+			"url":"images/04.png",
+			"width":415,
+			"height":382
 		},
 		{
-			id:1,
-			title:'test',
-			url:'images/01.png',
+			"id":1,
+			"title":"test",
+			"url":"images/01.png",
+			"width":463,
+			"height":394
 		},
 		{
-			id:2,
-			title:'test',
-			url:'images/02.png',
+			"id":2,
+			"title":"test",
+			"url":"images/02.png",
+			"width":496,
+			"height":825
 		},
 		{
-			id:3,
-			title:'test',
-			url:'images/03.png',
+			"id":3,
+			"title":"test",
+			"url":"images/03.png",
+			"width":476,
+			"height":386
 		},
 		{
-			id:4,
-			title:'test',
-			url:'images/04.png',
+			"id":4,
+			"title":"test",
+			"url":"images/04.png",
+			"width":415,
+			"height":382
 		},
 		{
-			id:1,
-			title:'test',
-			url:'images/01.png',
+			"id":1,
+			"title":"test",
+			"url":"images/01.png",
+			"width":463,
+			"height":394
 		},
 		{
-			id:2,
-			title:'test',
-			url:'images/02.png',
+			"id":2,
+			"title":"test",
+			"url":"images/02.png",
+			"width":496,
+			"height":825
 		},
 		{
-			id:3,
-			title:'test',
-			url:'images/03.png',
+			"id":3,
+			"title":"test",
+			"url":"images/03.png",
+			"width":476,
+			"height":386
 		},
 		{
-			id:4,
-			title:'test',
-			url:'images/04.png',
+			"id":4,
+			"title":"test",
+			"url":"images/04.png",
+			"width":415,
+			"height":382
 		},
 		{
-			id:1,
-			title:'test',
-			url:'images/01.png',
+			"id":1,
+			"title":"test",
+			"url":"images/01.png",
+			"width":463,
+			"height":394
 		},
 		{
-			id:2,
-			title:'test',
-			url:'images/02.png',
+			"id":2,
+			"title":"test",
+			"url":"images/02.png",
+			"width":496,
+			"height":825
 		},
 		{
-			id:3,
-			title:'test',
-			url:'images/03.png',
+			"id":3,
+			"title":"test",
+			"url":"images/03.png",
+			"width":476,
+			"height":386
 		},
 		{
-			id:4,
-			title:'test',
-			url:'images/04.png',
+			"id":4,
+			"title":"test",
+			"url":"images/04.png",
+			"width":415,
+			"height":382
 		},
 		{
-			id:1,
-			title:'test',
-			url:'images/01.png',
+			"id":1,
+			"title":"test",
+			"url":"images/01.png",
+			"width":463,
+			"height":394
 		},
 		{
-			id:2,
-			title:'test',
-			url:'images/02.png',
+			"id":2,
+			"title":"test",
+			"url":"images/02.png",
+			"width":496,
+			"height":825
 		},
 		{
-			id:3,
-			title:'test',
-			url:'images/03.png',
+			"id":3,
+			"title":"test",
+			"url":"images/03.png",
+			"width":476,
+			"height":386
 		},
 		{
-			id:4,
-			title:'test',
-			url:'images/04.png',
+			"id":4,
+			"title":"test",
+			"url":"images/04.png",
+			"width":415,
+			"height":382
 		},
 		{
-			id:1,
-			title:'test',
-			url:'images/01.png',
+			"id":1,
+			"title":"test",
+			"url":"images/01.png",
+			"width":463,
+			"height":394
 		},
 		{
-			id:2,
-			title:'test',
-			url:'images/02.png',
+			"id":2,
+			"title":"test",
+			"url":"images/02.png",
+			"width":496,
+			"height":825
 		},
 		{
-			id:3,
-			title:'test',
-			url:'images/03.png',
+			"id":3,
+			"title":"test",
+			"url":"images/03.png",
+			"width":476,
+			"height":386
 		},
 		{
-			id:4,
-			title:'test',
-			url:'images/04.png',
+			"id":4,
+			"title":"test",
+			"url":"images/04.png",
+			"width":415,
+			"height":382
 		},
 		{
-			id:1,
-			title:'test',
-			url:'images/01.png',
+			"id":1,
+			"title":"test",
+			"url":"images/01.png",
+			"width":463,
+			"height":394
 		},
 		{
-			id:2,
-			title:'test',
-			url:'images/02.png',
+			"id":2,
+			"title":"test",
+			"url":"images/02.png",
+			"width":496,
+			"height":825
 		},
 		{
-			id:3,
-			title:'test',
-			url:'images/03.png',
+			"id":3,
+			"title":"test",
+			"url":"images/03.png",
+			"width":476,
+			"height":386
 		},
 		{
-			id:4,
-			title:'test',
-			url:'images/04.png',
+			"id":4,
+			"title":"test",
+			"url":"images/04.png",
+			"width":415,
+			"height":382
 		},
 		{
-			id:1,
-			title:'test',
-			url:'images/01.png',
+			"id":1,
+			"title":"test",
+			"url":"images/01.png",
+			"width":463,
+			"height":394
 		},
 		{
-			id:2,
-			title:'test',
-			url:'images/02.png',
+			"id":2,
+			"title":"test",
+			"url":"images/02.png",
+			"width":496,
+			"height":825
 		},
 		{
-			id:3,
-			title:'test',
-			url:'images/03.png',
+			"id":3,
+			"title":"test",
+			"url":"images/03.png",
+			"width":476,
+			"height":386
 		},
 		{
-			id:4,
-			title:'test',
-			url:'images/04.png',
+			"id":4,
+			"title":"test",
+			"url":"images/04.png",
+			"width":415,
+			"height":382
 		},
 		{
-			id:1,
-			title:'test',
-			url:'images/01.png',
+			"id":1,
+			"title":"test",
+			"url":"images/01.png",
+			"width":463,
+			"height":394
 		},
 		{
-			id:2,
-			title:'test',
-			url:'images/02.png',
+			"id":2,
+			"title":"test",
+			"url":"images/02.png",
+			"width":496,
+			"height":825
 		},
 		{
-			id:3,
-			title:'test',
-			url:'images/03.png',
+			"id":3,
+			"title":"test",
+			"url":"images/03.png",
+			"width":476,
+			"height":386
 		},
 		{
-			id:4,
-			title:'test',
-			url:'images/04.png',
+			"id":4,
+			"title":"test",
+			"url":"images/04.png",
+			"width":415,
+			"height":382
 		},
 		{
-			id:1,
-			title:'test',
-			url:'images/01.png',
+			"id":1,
+			"title":"test",
+			"url":"images/01.png",
+			"width":463,
+			"height":394
 		},
 		{
-			id:2,
-			title:'test',
-			url:'images/02.png',
+			"id":2,
+			"title":"test",
+			"url":"images/02.png",
+			"width":496,
+			"height":825
 		},
 		{
-			id:3,
-			title:'test',
-			url:'images/03.png',
+			"id":3,
+			"title":"test",
+			"url":"images/03.png",
+			"width":476,
+			"height":386
 		},
 		{
-			id:4,
-			title:'test',
-			url:'images/04.png',
+			"id":4,
+			"title":"test",
+			"url":"images/04.png",
+			"width":415,
+			"height":382
 		},
 		{
-			id:1,
-			title:'test',
-			url:'images/01.png',
+			"id":1,
+			"title":"test",
+			"url":"images/01.png",
+			"width":463,
+			"height":394
 		},
 		{
-			id:2,
-			title:'test',
-			url:'images/02.png',
+			"id":2,
+			"title":"test",
+			"url":"images/02.png",
+			"width":496,
+			"height":825
 		},
 		{
-			id:3,
-			title:'test',
-			url:'images/03.png',
+			"id":3,
+			"title":"test",
+			"url":"images/03.png",
+			"width":476,
+			"height":386
 		},
 		{
-			id:4,
-			title:'test',
-			url:'images/04.png',
+			"id":4,
+			"title":"test",
+			"url":"images/04.png",
+			"width":415,
+			"height":382
 		},
 		{
-			id:1,
-			title:'test',
-			url:'images/01.png',
+			"id":1,
+			"title":"test",
+			"url":"images/01.png",
+			"width":463,
+			"height":394
 		},
 		{
-			id:2,
-			title:'test',
-			url:'images/02.png',
+			"id":2,
+			"title":"test",
+			"url":"images/02.png",
+			"width":496,
+			"height":825
 		},
 		{
-			id:3,
-			title:'test',
-			url:'images/03.png',
+			"id":3,
+			"title":"test",
+			"url":"images/03.png",
+			"width":476,
+			"height":386
 		},
 		{
-			id:4,
-			title:'test',
-			url:'images/04.png',
+			"id":4,
+			"title":"test",
+			"url":"images/04.png",
+			"width":415,
+			"height":382
 		},
 		{
-			id:1,
-			title:'test',
-			url:'images/01.png',
+			"id":1,
+			"title":"test",
+			"url":"images/01.png",
+			"width":463,
+			"height":394
 		},
 		{
-			id:2,
-			title:'test',
-			url:'images/02.png',
+			"id":2,
+			"title":"test",
+			"url":"images/02.png",
+			"width":496,
+			"height":825
 		},
 		{
-			id:3,
-			title:'test',
-			url:'images/03.png',
+			"id":3,
+			"title":"test",
+			"url":"images/03.png",
+			"width":476,
+			"height":386
 		},
 		{
-			id:4,
-			title:'test',
-			url:'images/04.png',
+			"id":4,
+			"title":"test",
+			"url":"images/04.png",
+			"width":415,
+			"height":382
 		},
 		{
-			id:1,
-			title:'test',
-			url:'images/01.png',
+			"id":1,
+			"title":"test",
+			"url":"images/01.png",
+			"width":463,
+			"height":394
 		},
 		{
-			id:4,
-			title:'test',
-			url:'images/04.png',
+			"id":2,
+			"title":"test",
+			"url":"images/02.png",
+			"width":496,
+			"height":825
+		},
+		{
+			"id":3,
+			"title":"test",
+			"url":"images/03.png",
+			"width":476,
+			"height":386
+		},
+		{
+			"id":4,
+			"title":"test",
+			"url":"images/04.png",
+			"width":415,
+			"height":382
 		}
 	]
 </script>

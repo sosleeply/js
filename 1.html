@@ -5,23 +5,16 @@
 <script type="text/javascript" src="jquery.js"></script>
 <link href="jquery.css" style="text/css" rel="stylesheet" />
 <script type="text/javascript">
-window.onload=function(){
-	$('.t-login').center().resize(function(){
-		$('.t-login').center()
-	});
-	$('.t-login-close').click(function(){
-		$('.t-login').remove();
-	})
-};
+$(function(){
+	$('.login').css({'width':'100px','height':'100px','background':'green'}).attr('_id',1);
+	console.log($('.login').css('width'));
+})
 </script>
 </head>
 <body>
-<!-- <div id="box" style="width:100px;height:100px;color:red;font-size:16px;"> a</div>
-<p class="red">1</p>
-<p class="red">2</p>
-<p class="red">3</p> -->
-<div class="t-login">
-	<h2><img src="images/close.png" alt="" class="t-login-close"/>登录</h2>
+
+<div class="login">
+	abc
 </div>
 </body>
 </html>
