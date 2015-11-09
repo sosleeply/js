@@ -127,26 +127,50 @@ jQuery.prototype.find=function(args){
 
 	return self;
 }
+/*internal function*/
+jQuery.prototype.getStyle=function(obj,attr){
+	if(typeof window.getComputedStyle!='undefined'){/*W3C*/
+		return window.getComputedStyle(obj,null)[attr];
+	}else if(typeof obj.currentStyle!='undefined'){/*IE*/
+		return obj.currentStyle[attr];
+	}
+}
 jQuery.prototype.css=function(attr,value){
-	for(var i=0;i<this.elements.length;i++){
-		if(arguments.length==1){
-			if(typeof window.getComputedStyle!='undefined'){/*W3C*/
-				return window.getComputedStyle(this.elements[i],null)[attr];
-			}else if(typeof this.elements[i].currentStyle!='undefined'){/*IE*/
-				return this.elements[i].currentStyle[attr];
+	if(typeof attr=='string'){
+		for(var i=0;i<this.elements.length;i++){
+			if(arguments.length==1){
+				return this.getStyle(this.elements[i],attr);
+			}
+			this.elements[i].style[attr]=value;
+		}
+	}else if(typeof attr=='object'){
+		for(var i=0;i<this.elements.length;i++){
+			for(var key in attr){
+				var value=attr[key];
+				this.elements[i].style[key]=value;
 			}
 		}
-		this.elements[i].style[attr]=value;
 	}
+	
 	return this;
 }
 jQuery.prototype.attr=function(attr,value){
-	for(var i=0;i<this.elements.length;i++){
-		if(arguments.length==1){
-			return this.elements[i].getAttribute(attr);
+	if(typeof attr=='string'){
+		for(var i=0;i<this.elements.length;i++){
+			if(arguments.length==1){
+				return this.elements[i].getAttribute(attr);
+			}
+			this.elements[i].setAttribute(attr,value);
 		}
-		this.elements[i].setAttribute(attr,value);
+	}else if(typeof attr=='object'){
+		for(var i=0;i<this.elements.length;i++){
+			for(var key in attr){
+				var value=attr[key];
+				this.elements[i].setAttribute(key,value);
+			}
+		}
 	}
+	
 	return this;
 }
 jQuery.prototype.html=function(str){
