@@ -2,7 +2,7 @@
 <head>
 <meta charset='utf-8'>
 <title></title>
-<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="goldfish.js"></script>
 <style type="text/css">
 *{margin:0;padding:0;}
 #container{width:1000px;border:1px solid red;margin:50px auto 0;position:relative;
@@ -24,10 +24,10 @@
 		function setCells(){
 			icells=Math.floor($(window).getInner().width/iOuterWidth);
 			if(icells<3)icells=3;
-			if(icells>6)icells=6;
+			if(icells>8)icells=8;
 
 			oContainer.css('width',iOuterWidth*icells-iSpace);
-			console.log("column:"+icells);
+			//console.log("column:"+icells);
 		}
 		setCells();
 		for(var i=0;i<icells;i++){
@@ -35,7 +35,6 @@
 			arrLeft.push(i*iOuterWidth);
 		}
 		//console.log(arrLeft);
-
 
 		function getMain(){
 			var iv=arrTop[0];
@@ -60,10 +59,11 @@
 
 				var iMinIndex=getMain();
 				var iHeight=iWidth/(obj.width)*(obj.height);
-				console.log(iHeight+"---"+iWidth);
 
-				$(oImg).css('width',iWidth).css('height',iHeight);
-				$(oImg).css('left',arrLeft[iMinIndex]).css('top',arrTop[iMinIndex]);
+				$(oImg).css({'width':iWidth,'height':iHeight});
+				$(oImg).css({'left':arrLeft[iMinIndex],'top':arrTop[iMinIndex]});
+
+			
 				arrTop[iMinIndex]+=iHeight+10;
 			})
 
@@ -101,7 +101,8 @@
 
 			$("#container img").each(function(obj,index){
 				var iMinIndex=getMain();
-				$(obj).css('left',arrLeft[iMinIndex]).css('top',arrTop[iMinIndex]);
+				$(obj).animate({'left':arrLeft[iMinIndex],'top':arrTop[iMinIndex]});
+				//$(obj).css('left',arrLeft[iMinIndex]).css('top',arrTop[iMinIndex]);
 				arrTop[iMinIndex]+=($(obj).height()+10);
 			})
 
