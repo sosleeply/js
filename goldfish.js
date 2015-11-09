@@ -205,7 +205,7 @@ goldfish.prototype.width=function(size){
 		if(arguments.length==0){
 			return parseInt(this.elements[i].offsetWidth);
 		}
-		this.css('width',size);
+		this.elements[i].style.width=size+'px';
 	}
 	return this;
 }
@@ -214,7 +214,7 @@ goldfish.prototype.height=function(size){
 		if(arguments.length==0){
 			return parseInt(this.elements[i].offsetHeight);
 		}
-		this.css('height',size);
+		this.elements[i].style.height=size+'px';
 	}
 	return this;
 }
