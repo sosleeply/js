@@ -1,9 +1,9 @@
 ##选择器
 ##1.
 ###实现
-$('#id')
-$('.class')
-$('div')            //tag
+    $('#id')
+    $('.class')
+    $('div')            //tag
 $('.main .left h1') //多级选择器
 $(selector).eq(0)
 $(selector).first()
