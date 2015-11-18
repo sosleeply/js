@@ -61,8 +61,8 @@
 				var iHeight=iWidth/(obj.width)*(obj.height);
 
 				$(oImg).css({'width':iWidth,'height':iHeight});
-				$(oImg).center().animate({'left':arrLeft[iMinIndex],'top':arrTop[iMinIndex],'speed':20});
-				//$(oImg).css({'left':arrLeft[iMinIndex],'top':arrTop[iMinIndex]});
+				//$(oImg).center().animate({'left':arrLeft[iMinIndex],'top':arrTop[iMinIndex],'speed':20});
+				$(oImg).css({'left':arrLeft[iMinIndex],'top':arrTop[iMinIndex]});
 			
 				arrTop[iMinIndex]+=iHeight+10;
 			})
