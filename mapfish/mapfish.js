@@ -1,5 +1,5 @@
 /**/
-function goldfish(args){
+function mapfish(args){
 	this.elements = [];
 	var self=this;
 	switch(typeof args){
@@ -66,7 +66,7 @@ function goldfish(args){
 	}
 	return self;
 }
-goldfish.prototype.bindEvent=function(obj,events,fn){
+mapfish.prototype.bindEvent=function(obj,events,fn){
 	if(obj.addEventListener){
 		obj.addEventListener(events,fn,false);
 	}else{
@@ -75,13 +75,13 @@ goldfish.prototype.bindEvent=function(obj,events,fn){
 }
 /************************************************/
 /****************selector start******************/
-goldfish.prototype.getId=function(id,parent){
+mapfish.prototype.getId=function(id,parent){
 	if(!parent)parent=document;
 	var tmpElements=[];
 	tmpElements.push(parent.getElementById(id));
 	return tmpElements;
 }
-goldfish.prototype.getClass=function(className,parent){
+mapfish.prototype.getClass=function(className,parent){
 	if(!parent)parent=document;
 	var all=parent.getElementsByTagName('*');
 	var tmpElements=[];
@@ -92,7 +92,7 @@ goldfish.prototype.getClass=function(className,parent){
 	}
 	return tmpElements;
 }
-goldfish.prototype.getTag=function(tag,parent){
+mapfish.prototype.getTag=function(tag,parent){
 	if(!parent)parent=document;
 	var tags=parent.getElementsByTagName(tag);
 	var tmpElements=[];
@@ -101,7 +101,7 @@ goldfish.prototype.getTag=function(tag,parent){
 	}
 	return tmpElements;
 }
-goldfish.prototype.find=function(args){
+mapfish.prototype.find=function(args){
 	var self=this;
 	var subElement = [];
 	for(var i=0;i<self.elements.length;i++){
@@ -128,14 +128,14 @@ goldfish.prototype.find=function(args){
 	return self;
 }
 /*internal function*/
-goldfish.prototype.getStyle=function(obj,attr){
+mapfish.prototype.getStyle=function(obj,attr){
 	if(typeof window.getComputedStyle!='undefined'){/*W3C*/
 		return window.getComputedStyle(obj,null)[attr];
 	}else if(typeof obj.currentStyle!='undefined'){/*IE*/
 		return obj.currentStyle[attr];
 	}
 }
-goldfish.prototype.css=function(attr,value){
+mapfish.prototype.css=function(attr,value){
 	if(typeof attr=='string'){
 		for(var i=0;i<this.elements.length;i++){
 			if(arguments.length==1){
@@ -154,7 +154,7 @@ goldfish.prototype.css=function(attr,value){
 	
 	return this;
 }
-goldfish.prototype.attr=function(attr,value){
+mapfish.prototype.attr=function(attr,value){
 	if(typeof attr=='string'){
 		for(var i=0;i<this.elements.length;i++){
 			if(arguments.length==1){
@@ -173,7 +173,7 @@ goldfish.prototype.attr=function(attr,value){
 	
 	return this;
 }
-goldfish.prototype.html=function(str){
+mapfish.prototype.html=function(str){
 	for(var i=0;i<this.elements.length;i++){
 		if(arguments.length==0){
 			return this.elements[i].innerHTML;
@@ -182,7 +182,7 @@ goldfish.prototype.html=function(str){
 	}
 	return this;
 }
-goldfish.prototype.top=function(){
+mapfish.prototype.top=function(){
 	var top=this.elements[0].offsetTop;
 	var parent=this.elements[0].offsetParent;
 	while(parent!=null){
@@ -191,7 +191,7 @@ goldfish.prototype.top=function(){
 	}
 	return top;
 }
-goldfish.prototype.left=function(){
+mapfish.prototype.left=function(){
 	var left=this.elements[0].offsetLeft;
 	var parent=this.elements[0].offsetParent;
 	while(parent!=null){
@@ -200,7 +200,7 @@ goldfish.prototype.left=function(){
 	}
 	return left;
 }
-goldfish.prototype.width=function(size){
+mapfish.prototype.width=function(size){
 	for(var i=0;i<this.elements.length;i++){
 		if(arguments.length==0){
 			return parseInt(this.elements[i].offsetWidth);
@@ -209,7 +209,7 @@ goldfish.prototype.width=function(size){
 	}
 	return this;
 }
-goldfish.prototype.height=function(size){
+mapfish.prototype.height=function(size){
 	for(var i=0;i<this.elements.length;i++){
 		if(arguments.length==0){
 			return parseInt(this.elements[i].offsetHeight);
@@ -218,17 +218,17 @@ goldfish.prototype.height=function(size){
 	}
 	return this;
 }
-goldfish.prototype.innerWidth=function(){
+mapfish.prototype.innerWidth=function(){
 	return this.elements[0].innerWidth;
 }
-goldfish.prototype.innerHeight=function(){
+mapfish.prototype.innerHeight=function(){
 	return this.elements[0].innerHeight;
 }
-goldfish.prototype.scrollTop=function(){
+mapfish.prototype.scrollTop=function(){
 	var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
 	return scrollTop;
 }
-goldfish.prototype.offset=function(){
+mapfish.prototype.offset=function(){
 	return {
 		top:this.elements[0].offsetTop,
 		left:this.elements[0].offsetLeft,
@@ -236,16 +236,16 @@ goldfish.prototype.offset=function(){
 		height:this.elements[0].offsetHeight
 	}
 }
-goldfish.prototype.scrollHeight=function(){
+mapfish.prototype.scrollHeight=function(){
 	return document.body.scrollHeight;
 }
-goldfish.prototype.scrollLeft=function(){
+mapfish.prototype.scrollLeft=function(){
 	return  document.body.scrollLeft;
 }
-goldfish.prototype.length=function(){
+mapfish.prototype.length=function(){
 	return this.elements.length;
 }
-goldfish.prototype.append=function(obj){
+mapfish.prototype.append=function(obj){
 	for(var i=0;i<this.elements.length;i++){
 		this.elements[i].appendChild(obj);
 	}
@@ -255,33 +255,33 @@ goldfish.prototype.append=function(obj){
 /***********************************************/
 /***********************************************/
 /*****************events start******************/
-goldfish.prototype.on=function(events,fn){
+mapfish.prototype.on=function(events,fn){
 	for(var i=0;i<this.elements.length;i++){
 		this.bindEvent(this.elements[i],events,fn);
 	}
 	return this;
 }
-goldfish.prototype.click=function(fn){
+mapfish.prototype.click=function(fn){
 	this.on('click',fn);
 
 	return this;
 }
-goldfish.prototype.mouseover=function(fn){
+mapfish.prototype.mouseover=function(fn){
 	this.on('mouseover',fn);
 
 	return this;
 }
-goldfish.prototype.mouseout=function(fn){
+mapfish.prototype.mouseout=function(fn){
 	this.on('mouseout',fn);
 
 	return this;
 }
-goldfish.prototype.resize=function(fn){
+mapfish.prototype.resize=function(fn){
 	this.bindEvent(window,'resize',fn);
 
 	return this;
 }
-goldfish.prototype.hover=function(over,out){
+mapfish.prototype.hover=function(over,out){
 	this.on('mouseover',over);
 	this.on('mouseout',out);
 
@@ -291,51 +291,51 @@ goldfish.prototype.hover=function(over,out){
 /***********************************************/
 /***********************************************/
 /*****************function start****************/
-goldfish.prototype.show=function(){
+mapfish.prototype.show=function(){
 	for(var i=0;i<this.elements.length;i++){
 		this.elements[i].style.display='block'
 	}
 	return this;
 }
-goldfish.prototype.hide=function(){
+mapfish.prototype.hide=function(){
 	for(var i=0;i<this.elements.length;i++){
 		this.elements[i].style.display='none'
 	}
 	return this;
 }
-goldfish.prototype.eq=function(num){
+mapfish.prototype.eq=function(num){
 	var element=this.elements[num];
 	this.elements=[];
 	this.elements[0]=element;
 	return this;
 }
-goldfish.prototype.first=function(){
+mapfish.prototype.first=function(){
 	var element=this.elements[0];
 	this.elements=[];
 	this.elements[0]=element;
 	return this;
 }
-goldfish.prototype.last=function(){
+mapfish.prototype.last=function(){
 	var element=this.elements[this.elements.length-1];
 	this.elements=[];
 	this.elements[0]=element;
 	return this;
 }
-goldfish.prototype.addClass=function(className){
+mapfish.prototype.addClass=function(className){
 	for(var i=0;i<this.elements.length;i++){
 		if(!this.elements[i].className.match(new RegExp('(\\s+|^)'+className+'(\\s+|$)')))
 			this.elements[i].className += ' ' + className;
 	}
 	return this;
 }
-goldfish.prototype.removeClass=function(className){
+mapfish.prototype.removeClass=function(className){
 	for(var i=0;i<this.elements.length;i++){
 		if(this.elements[i].className.match(new RegExp('(\\s+|^)'+className+'(\\s+|$)')))
 			this.elements[i].className = this.elements[i].className.replace(new RegExp('(\\s+|^)'+className+'(\\s+|$)'),'');
 	}
 	return this;
 }
-goldfish.prototype.center=function(){
+mapfish.prototype.center=function(){
 	for(var i=0;i<this.elements.length;i++){
 		var obj=this.elements[i];
 		var width=obj.clientWidth;
@@ -348,14 +348,14 @@ goldfish.prototype.center=function(){
 	
 	return this;
 }
-goldfish.prototype.remove=function(){
+mapfish.prototype.remove=function(){
 	for(var i=0;i<this.elements.length;i++){
 		this.elements[i].remove();
 	}
 
 	return this;
 }
-goldfish.prototype.serialize=function(){
+mapfish.prototype.serialize=function(){
 	var form=this.elements[0];
 	var parts={};
 	for(var i=0;i<form.elements.length;i++){
@@ -397,7 +397,7 @@ goldfish.prototype.serialize=function(){
 	}
 	return parts;
 }
-goldfish.prototype.each=function(fn){
+mapfish.prototype.each=function(fn){
 	for(var i=0;i<this.elements.length;i++){
 		fn(this.elements[i],i);
 	}
@@ -407,7 +407,7 @@ goldfish.prototype.each=function(fn){
 /***********************************************/
 /***********************************************/
 /****************plugin end*********************/
-goldfish.prototype.getInner=function(){
+mapfish.prototype.getInner=function(){
 	if(typeof window.innerWidth!='undefined'){
 		return{
 			width:window.innerWidth,
@@ -420,7 +420,7 @@ goldfish.prototype.getInner=function(){
 		}
 	}
 }
-goldfish.prototype.preDef=function(e){
+mapfish.prototype.preDef=function(e){
 	var e=e||window.event;
 	if(typeof e.preventDefault!='undefined'){/*W3C*/
 		e.preventDefault();
@@ -428,7 +428,7 @@ goldfish.prototype.preDef=function(e){
 		e.returnValue=false;
 	}
 }
-goldfish.prototype.animate=function(args){
+mapfish.prototype.animate=function(args){
 	var self=this;
 	var speed=args['speed'];
 	var interval=args['interval'];
@@ -490,7 +490,7 @@ goldfish.prototype.animate=function(args){
 
 	return self;
 }
-goldfish.prototype.drag=function(){
+mapfish.prototype.drag=function(){
 	var self=this;
 	for(var i=0;i<this.elements.length;i++){
 		this.elements[i].onmousedown=function(e){
@@ -531,7 +531,7 @@ goldfish.prototype.drag=function(){
 
 	return self;
 }
-goldfish.prototype.dragEx=function(){
+mapfish.prototype.dragEx=function(){
 	var self=this;
 	function startMove(obj,iSpeedX,iSpeedY){
 		obj.timer=setInterval(function(){
@@ -611,7 +611,7 @@ goldfish.prototype.dragEx=function(){
 
 	return self;
 }
-goldfish.prototype.run=function(speed,interval){/*多元素同时运动待解决，元素碰撞未实现*/
+mapfish.prototype.run=function(speed,interval){/*多元素同时运动待解决，元素碰撞未实现*/
 	if(!speed)speed=10;
 	if(!interval)interval=50;
 	var self=this;
@@ -648,7 +648,7 @@ goldfish.prototype.run=function(speed,interval){/*多元素同时运动待解决
 
 	return self;
 }
-goldfish.prototype.fall=function(speed,interval){/*自由落体，待解决*/
+mapfish.prototype.fall=function(speed,interval){/*自由落体，待解决*/
 	if(!speed)speed=5;
 	if(!interval)interval=30;
 	var self=this;
@@ -676,7 +676,7 @@ goldfish.prototype.fall=function(speed,interval){/*自由落体，待解决*/
 	return self;
 }
 /*$(this).move({opacity:100})*/
-goldfish.prototype.move=function(args, fn){
+mapfish.prototype.move=function(args, fn){
 	var self = this;
 	for(var i=0;i<this.elements.length;i++){
 		var obj=this.elements[i];
@@ -720,7 +720,7 @@ goldfish.prototype.move=function(args, fn){
 
 	return self;
 }
-goldfish.prototype.rotation1=function(){
+mapfish.prototype.rotation1=function(){
 	var self=this;
 
 	function move(obj,args){
@@ -783,7 +783,7 @@ goldfish.prototype.rotation1=function(){
 
 	return self;
 }
-goldfish.prototype.rotation2=function(interval){
+mapfish.prototype.rotation2=function(interval){
 	if(!interval) interval=3000;
 	var self=this;
 
@@ -866,7 +866,7 @@ goldfish.prototype.rotation2=function(interval){
 
 	return self;
 }
-goldfish.prototype.rotation3=function(){
+mapfish.prototype.rotation3=function(){
 	var self=this;
 
 	var obj=this.elements[0];
@@ -924,7 +924,7 @@ goldfish.prototype.rotation3=function(){
 
 	return self;
 }
-goldfish.prototype.rotation4=function(minWidth){
+mapfish.prototype.rotation4=function(minWidth){
 	var self=this;
 	var obj=this.elements[0];
 
@@ -987,7 +987,7 @@ goldfish.prototype.rotation4=function(minWidth){
 /***********************************************/
 /***********************************************/
 /**********trigonometric function start*********/
-goldfish.prototype.menu=function(){
+mapfish.prototype.menu=function(){
 	var self=this;
 	document.onmousemove=function(e){
 		var e=e||window.event;
@@ -1029,5 +1029,5 @@ $.each=function(arr,fn){
 /****************extend end*********************/
 /***********************************************/
 function $(args){
-	return new goldfish(args);
+	return new mapfish(args);
 }
