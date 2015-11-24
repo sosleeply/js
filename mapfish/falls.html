@@ -51,14 +51,14 @@
 		function getData(){
 			if(!iBtn)return;
 			iBtn=false;
-			$("window").each(data,function(obj,index){
+			$(data).each(function(){
 				var oImg=document.createElement('img');
-				$(oImg).attr('src',obj.url);
+				$(oImg).attr('src',this.url);
 
 				oContainer.append(oImg);
 
 				var iMinIndex=getMain();
-				var iHeight=iWidth/(obj.width)*(obj.height);
+				var iHeight=iWidth/(this.width)*(this.height);
 
 				$(oImg).css({'width':iWidth,'height':iHeight});
 				//$(oImg).center().animate({'left':arrLeft[iMinIndex],'top':arrTop[iMinIndex],'speed':20});
@@ -91,21 +91,21 @@
 				getData();
 			}
 			if(iOldCells==icells)return;
-
+			
 			arrTop=[];
 			arrLeft=[];
 			for(var i=0;i<icells;i++){
 				arrTop.push(0);
 				arrLeft.push(i*iOuterWidth);
 			}
-
-			$("#container img").each(function(obj,index){
+			$("#container img").each(function(){
+				console.log("call");
 				var iMinIndex=getMain();
-				$(obj).animate({'left':arrLeft[iMinIndex],'top':arrTop[iMinIndex]});
+				console.log(this);
+				$(this).animate({'left':arrLeft[iMinIndex],'top':arrTop[iMinIndex]});
 				//$(obj).css('left',arrLeft[iMinIndex]).css('top',arrTop[iMinIndex]);
-				arrTop[iMinIndex]+=($(obj).height()+10);
+				arrTop[iMinIndex]+=($(this).height()+10);
 			})
-
 		})
 
 	})

@@ -414,11 +414,16 @@
 		},
 		each:function(fn){
 			var self=this;
-			for(i=0;i<self.elements.length;i++){
-				var obj=self.elements[i];
-				if(typeof obj==="object"){
-					fn.call(obj,i);
-			    }
+			//var isArray = self.elements instanceof Array;
+			//console.log(isArray);
+			for(var i=0;i<self.elements.length;i++){
+				obj=self.elements[i]
+				for(var j=0;j<obj.length;j++){
+					var item=obj[j];
+					if(typeof item==="object"){
+						fn.call(item,j);
+				    }
+				}
 			}
 		},
 		getInner:function(){
