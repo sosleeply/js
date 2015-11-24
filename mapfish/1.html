@@ -5,9 +5,9 @@
 <script type="text/javascript" src="mapfish.js"></script>
 <script type="text/javascript">
 $(function(){
-	$("#test").find("span").html("   success   abc  ");
-	var arr = [1,2,3,4,5];
-	console.log($.each())
+	$("span").each(function(){
+		$(this).html("success");
+	});
 })
 </script>
 <style type="text/css">

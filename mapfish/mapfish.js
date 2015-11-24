@@ -412,8 +412,14 @@
 			}
 			return parts;
 		},
-		each: function( callback, args ) {
-			//return this.each( this, callback, args );
+		each:function(fn){
+			var self=this;
+			for(i=0;i<self.elements.length;i++){
+				var obj=self.elements[i];
+				if(typeof obj==="object"){
+					fn.call(obj,i);
+			    }
+			}
 		},
 		getInner:function(){
 			if(typeof window.innerWidth!='undefined'){
@@ -1026,13 +1032,8 @@
 
 	mapfish.extend = mapfish.fn.extend = function() {};
 	mapfish.extend({
-		trim: function(text) {
+		trim:function(text) {
 			return text == null ? "": text.replace(/^\s+|\s+$/g,'');
-		},
-		each:function(arr,fn){
-			for(var i=0;i<arr.length;i++){
-				fn(arr[i],i);
-			}
 		},
 		browser:function(){
 			var ua=navigator.userAgent.toLowerCase();
