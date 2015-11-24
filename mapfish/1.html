@@ -4,16 +4,25 @@
 <title>base.js</title>
 <script type="text/javascript" src="mapfish.js"></script>
 <script type="text/javascript">
-$(function(){
-	$('.login').css({'width':'100px','height':'100px','background':'green'}).attr('_id',1);
-	console.log($('.login').css('width'));
-})
+window.onload=function(){
+	$("#test").find("span").html("success").each(function(){
+		console.log(this);
+	});
+}
 </script>
 </head>
 <body>
 
-<div class="login">
-	abc
+<div id="test">
+	<span>abc1</span>
+	<span>abc2</span>
+	<span>abc3</span>
+	<span>abc4</span>
+	<span>abc5</span>
+	<span>abc6</span>
+	<span>abc7</span>
+	<span>abc8</span>
+	<span>abc9</span>
 </div>
 </body>
 </html>
