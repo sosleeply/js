@@ -720,6 +720,30 @@ mapfish.prototype.move=function(args, fn){
 
 	return self;
 }
+/*internal function*/
+mapfish.prototype.motion=function(obj,args,fn){
+	var self=this;
+	clearInterval(obj.timer);
+	obj.timer = setInterval(function(){
+		var bBtn = true;
+		for(var attr in args){
+			var iCur = 0;
+			iCur = parseInt(self.getStyle(obj,attr)) || 0;
+			var iSpeed = (args[attr] - iCur)/8;
+			iSpeed = iSpeed >0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
+			if(iCur!=args[attr]){
+				bBtn = false;
+			}
+			obj.style[attr] = iCur + iSpeed + 'px';
+		}
+		if(bBtn){
+			clearInterval(obj.timer);
+			if(fn){
+				fn.call(obj);
+			}
+		}
+	},30);
+}
 mapfish.prototype.rotation1=function(){
 	var self=this;
 
@@ -787,28 +811,6 @@ mapfish.prototype.rotation2=function(interval){
 	if(!interval) interval=3000;
 	var self=this;
 
-	function move(obj,args,fn){
-		clearInterval(obj.timer);
-		obj.timer = setInterval(function(){
-			var bBtn = true;
-			for(var attr in args){
-				var iCur = 0;
-				iCur = parseInt(self.getStyle(obj,attr)) || 0;
-				var iSpeed = (args[attr] - iCur)/8;
-				iSpeed = iSpeed >0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
-				if(iCur!=args[attr]){
-					bBtn = false;
-				}
-				obj.style[attr] = iCur + iSpeed + 'px';
-			}
-			if(bBtn){
-				clearInterval(obj.timer);
-				if(fn){
-					fn.call(obj);
-				}
-			}
-		},30);
-	}
 	function toRun(obj, aLiOl, aLiUl){
 		if(obj.iNow==0){
 			aLiUl[0].style.position='static';
@@ -827,7 +829,7 @@ mapfish.prototype.rotation2=function(interval){
 			aLiOl[i].className='';
 		}
 		aLiOl[obj.iNow].className='active';
-		move(obj,{top:-obj.iNow2*oHeight})
+		self.motion(obj,{top:-obj.iNow2*oHeight})
 	}
 
 	var obj=this.elements[0];
@@ -857,7 +859,7 @@ mapfish.prototype.rotation2=function(interval){
 			this.className = 'active';
 			oUl.iNow = this.index;
 			oUl.iNow2 = this.index;
-			move(oUl,{top:-this.index*oHeight});
+			self.motion(oUl,{top:-this.index*oHeight});
 		}
 	}
 	oUl.timer1 = setInterval(function(){
@@ -889,37 +891,14 @@ mapfish.prototype.rotation3=function(){
 			this.className='active';
 			if(oUl.iNow<this.index){
 				aLiUl[this.index].style.left=oWidth+'px';
-				move(aLiUl[oUl.iNow],{left:-oWidth});
+				self.motion(aLiUl[oUl.iNow],{left:-oWidth});
 			}else if(oUl.iNow>this.index){
 				aLiUl[this.index].style.left=-oWidth+'px';
-				move(aLiUl[oUl.iNow],{left:oWidth});
+				self.motion(aLiUl[oUl.iNow],{left:oWidth});
 			}
-			move(aLiUl[this.index],{left:0});
+			self.motion(aLiUl[this.index],{left:0});
 			oUl.iNow=this.index;
 		}
-	}
-
-	function move(obj,args,fn){
-		clearInterval(obj.timer);
-		obj.timer = setInterval(function(){
-			var bBtn = true;
-			for(var attr in args){
-				var iCur = 0;
-				iCur = parseInt(self.getStyle(obj,attr)) || 0;
-				var iSpeed = (args[attr] - iCur)/8;
-				iSpeed = iSpeed >0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
-				if(iCur!=args[attr]){
-					bBtn = false;
-				}
-				obj.style[attr] = iCur + iSpeed + 'px';
-			}
-			if(bBtn){
-				clearInterval(obj.timer);
-				if(fn){
-					fn.call(obj);
-				}
-			}
-		},30);
 	}
 
 	return self;
@@ -945,40 +924,17 @@ mapfish.prototype.rotation4=function(minWidth){
 		aLiUl[i].onmouseover=function(){
 			for(var j=0;j<aLiUl.length;j++){
 				if(j<=this.index){
-					move(aLiUl[j],{left:j*minWidth});
+					self.motion(aLiUl[j],{left:j*minWidth});
 				}else{
-					move(aLiUl[j],{left:(oWidth-allMinWidth)+(j-1)*minWidth});
+					self.motion(aLiUl[j],{left:(oWidth-allMinWidth)+(j-1)*minWidth});
 				}
 			}
 		}
 		aLiUl[i].onmouseout=function(){
 			for(var x=0;x<aLiUl.length;x++){
-				move(aLiUl[x],{left:num*x});
+				self.motion(aLiUl[x],{left:num*x});
 			}
 		}
-	}
-
-	function move(obj,args,fn){
-		clearInterval(obj.timer);
-		obj.timer = setInterval(function(){
-			var bBtn = true;
-			for(var attr in args){
-				var iCur = 0;
-				iCur = parseInt(self.getStyle(obj,attr)) || 0;
-				var iSpeed = (args[attr] - iCur)/8;
-				iSpeed = iSpeed >0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
-				if(iCur!=args[attr]){
-					bBtn = false;
-				}
-				obj.style[attr] = iCur + iSpeed + 'px';
-			}
-			if(bBtn){
-				clearInterval(obj.timer);
-				if(fn){
-					fn.call(obj);
-				}
-			}
-		},30);
 	}
 
 	return self;
@@ -1009,6 +965,56 @@ mapfish.prototype.menu=function(){
 	}
 
 	return self;
+}
+/*$('.x').round2d(100,30)*/
+mapfish.prototype.round2d=function(r, interval){
+	if(!r) r=50;
+	if(!interval) interval=30;
+	var self=this;
+
+	for(var i=0;i<this.elements.length;i++){
+		var obj=this.elements[i];
+		var x=obj.offsetLeft;
+		var y=obj.offsetTop;
+		var num=0;
+		clearInterval(obj.timer);
+
+		obj.timer=setInterval(function(){
+			num++;
+			var a=Math.sin(num*Math.PI/180)*r;
+			var b=Math.cos(num*Math.PI/180)*r;
+			obj.style.left=x+b+'px';
+			obj.style.top=y+a+'px';
+		},interval);
+	}
+
+	return this;
+}
+mapfish.prototype.round3d=function(r, interval){
+	if(!r) r=50;
+	if(!interval) interval=30;
+	var self=this;
+
+	for(var i=0;i<this.elements.length;i++){
+		var obj=this.elements[i];
+		var x=obj.offsetLeft;
+		var y=obj.offsetTop;
+		var num=0;
+		clearInterval(obj.timer);
+
+		obj.timer=setInterval(function(){
+			num++;
+			var a=Math.sin(num*Math.PI/180)*r;
+			var b=Math.cos(num*Math.PI/180)*r;
+			obj.style.left=x+b+'px';
+
+			obj.style.width=a/100*r+50+'px';
+			obj.style.height=a/100*r+50+'px';
+
+		},interval);
+	}
+
+	return this;
 }
 /**********trigonometric function end***********/
 /***********************************************/
