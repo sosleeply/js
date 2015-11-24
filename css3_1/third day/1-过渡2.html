@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+ <meta charset="UTF-8">
+ <title></title>
+ <style type="text/css">
+     .wrap{width:100px;height:200px;position:relative;}
+    .box{width:100px;height:100px;display:inline-block;background:#cc5a1f;transition:0.3s;position:absolute;bottom:0;}
+    .box:hover{height:200px;background:#0066cc;}
+ </style>
+<script type="text/javascript">
+    window.onload=function(){
+        var wrap=document.getElementsByClassName('wrap')[0];
+        var aBox=wrap.getElementsByClassName('box');
+
+        for(var i=0;i<aBox.length;i++){
+            aBox[i].style.left=i*100+10+'px';
+        }
+    }
+    /*matthewlein.com/ceaser*/
+</script>
+</head>
+<body>
+<div class="wrap">
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+</div>
+</body>
+</html>

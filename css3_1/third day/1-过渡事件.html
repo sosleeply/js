@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+ <meta charset="UTF-8">
+ <title></title>
+ <style type="text/css">
+    #box{width:100px;height:100px;background:#cc5a1f;transition:1s;}
+
+ </style>
+<script type="text/javascript">
+    /*matthewlein.com/ceaser*/
+    window.onload=function(){
+        var oBox=document.getElementById('box');
+        oBox.onclick=function(){
+            this.style.width=this.offsetWidth+100+'px';
+            addEnd(this,end);
+        };
+        function end(obj){
+            this.style.width=this.offsetWidth-100+'px';
+            removeEnd(this,end);
+        }
+        addEnd(oBox,function(){
+            //alert("end");
+        });
+        function addEnd(obj,fn){
+            obj.addEventListener('WebkitTransitionEnd',fn,false);
+            obj.addEventListener('transitionend',fn,false);
+        }
+        function removeEnd(obj,fn){
+            obj.removeEventListener('WebkitTransitionEnd',fn,false);
+            obj.removeEventListener('transitionend',fn,false);
+        }
+    }
+</script>
+</head>
+<body>
+<div id="box"></div>
+</body>
+</html>
