@@ -51,7 +51,7 @@
 		function getData(){
 			if(!iBtn)return;
 			iBtn=false;
-			$.each(data,function(obj,index){
+			$("window").each(data,function(obj,index){
 				var oImg=document.createElement('img');
 				$(oImg).attr('src',obj.url);
 

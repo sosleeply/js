@@ -4,12 +4,15 @@
 <title>base.js</title>
 <script type="text/javascript" src="mapfish.js"></script>
 <script type="text/javascript">
-window.onload=function(){
-	$("#test").find("span").html("success").each(function(){
-		console.log(this);
-	});
-}
+$(function(){
+	$("#test").find("span").html("   success   abc  ");
+	var arr = [1,2,3,4,5];
+	console.log($.each())
+})
 </script>
+<style type="text/css">
+span{background:green;margin:0 8px;}
+</style>
 </head>
 <body>
 

@@ -14,12 +14,13 @@
 
 		init: function( selector, context, rootMapfish ){
 			var self = this;
-			elements = [];
+			self.elements = [];
 
 			var match, elem;
 			if ( !selector ) {
 				return this;
 			}
+			//console.log(typeof selector);
 			switch(typeof selector){
 				case 'function':
 				self.bindEvent(window,'load',selector);
@@ -1023,26 +1024,32 @@
 
 	};
 
-	mapfish.extend = mapfish.fn.extend = function() {
-		var options, name, src, copy, copyIsArray, clone,//定义的一组局部变量
-        target = arguments[0] || {},
-        i = 1,
-        length = arguments.length,
-        deep = false;
-  		// 变量options：指向某个源对象
-		// 变量name:表示目标对象的某个属性名
-		// 变量src：表示目标对象的某个属性的原始值
-		// 变量copy：表示某个源对象的某个属性的值
-		// 变量copyIsArray：指示变量copy是否是数组
-		// 变量clone：表示深度复制时原始值的修正值
-		// 变量target：指向目标对象
-		// 变量i：表示源对象的起始下标
-		// 变量length：表示参数的个数，用于修正变量
-		// 变量deep：指示是否执行深度复制，默认为false
-	};
+	mapfish.extend = mapfish.fn.extend = function() {};
 	mapfish.extend({
-		trim: function( text ) {
+		trim: function(text) {
 			return text == null ? "": text.replace(/^\s+|\s+$/g,'');
+		},
+		each:function(arr,fn){
+			for(var i=0;i<arr.length;i++){
+				fn(arr[i],i);
+			}
+		},
+		browser:function(){
+			var ua=navigator.userAgent.toLowerCase();
+			return ua;
+		},
+		isFunction: function( obj ) {
+			return jQuery.type(obj) === "function";
+		},
+
+		isArray: Array.isArray,
+
+		isWindow: function( obj ) {
+			return obj != null && obj === obj.window;
+		},
+
+		isNumeric: function( obj ) {
+			return !isNaN( parseFloat(obj) ) && isFinite( obj );
 		}
 	});
 
