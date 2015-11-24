@@ -413,12 +413,16 @@
 			return parts;
 		},
 		each:function(fn){
-			var self=this;
-			for(i=0;i<self.elements.length;i++){
-				var obj=self.elements[i];
-				if(typeof obj==="object"){
-					fn.call(obj,i);
-			    }
+			for(var i=0;i<this.elements.length;i++){
+				var obj=this.elements[i];
+                if(obj instanceof Array){
+                    for(var j=0;j<obj.length;j++){
+                        var item=obj[j];
+                        fn.call(item,j);
+                    }
+                }else{
+                    fn.call(obj,i);
+                }
 			}
 		},
 		getInner:function(){
@@ -532,7 +536,7 @@
 						}
 						_this.style.left=left+'px';
 						_this.style.top=top+'px';
-					}
+					};
 					document.onmouseup=function(){
 						document.onmousemove=null;
 						document.onmouseup=null;
@@ -611,7 +615,7 @@
 						}
 						_this.style.left=left+'px';
 						_this.style.top=top+'px';
-					}
+					};
 					document.onmouseup=function(){
 						document.onmousemove=null;
 						document.onmouseup=null;
@@ -679,7 +683,7 @@
 					iSpeed+=speed;
 					var top=obj.offsetTop+iSpeed;
 					if(top>self.getInner().height-height){
-						top=self.getInner().height-height
+						top=self.getInner().height-height;
 						iSpeed=-iSpeed;
 						iSpeed*=0.75;
 					}
@@ -857,12 +861,12 @@
 
 			obj.onmouseover=function(){
 				clearInterval(oUl.timer1);
-			}
+			};
 			obj.onmouseout=function(){
 				oUl.timer1 = setInterval(function(){
 					toRun(oUl,aLiOl,aLiUl);
 				},interval);
-			}
+			};
 
 			for(var x=0;x<aLiOl.length;x++){
 				aLiOl[x].index = x;
@@ -943,7 +947,7 @@
 							self.motion(aLiUl[j],{left:(oWidth-allMinWidth)+(j-1)*minWidth});
 						}
 					}
-				}
+				};
 				aLiUl[i].onmouseout=function(){
 					for(var x=0;x<aLiUl.length;x++){
 						self.motion(aLiUl[x],{left:num*x});
@@ -972,7 +976,7 @@
 					obj.style.width=scale*200+'px';
 					obj.style.height=scale*200+'px';
 				}
-			}
+			};
 
 			return self;
 		},
@@ -1060,31 +1064,3 @@
 	mapfish.fn.init.prototype = mapfish.fn;
 	window.mapfish = window.$ = mapfish;
 })(window);
-
-/*****************selector end******************/
-/***********************************************/
-/****************plugin end*********************/
-/***********************************************/
-/***********************************************/
-/**********trigonometric function start*********/
-/**********trigonometric function end***********/
-/***********************************************/
-/***********************************************/
-/****************extend start*******************/
-$_.trim=function(str){
-	return str.replace(/^\s+|\s+$/g,'');
-}
-$_.browser=function(){
-	var ua=navigator.userAgent.toLowerCase();
-	return ua;
-}
-$_.each=function(arr,fn){
-	for(var i=0;i<arr.length;i++){
-		fn(arr[i],i);
-	}
-}
-/****************extend end*********************/
-/***********************************************/
-function $_(args){
-	return new mapfish(args);
-}

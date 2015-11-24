@@ -47,6 +47,9 @@
 
 ###400行之后，属插件类，待分离
 
+###CSS
+    text-indent:50px;   首行缩进50px
+
 ###兼容性
     transition，兼容IE10及以上
 
@@ -107,6 +110,146 @@
     Rtl从右向左排列
     Ltr从左向右排列
     direction:rtl; (right to left)
+
+###CSS3分栏布局
+    column-width:100px;         每栏100px，列数自动计算
+    column-count:5;             分成5栏，每栏宽度自动计算
+    column-gap:10px;            栏目间隔10px
+    column-rule:1px solid #ccc; 栏目分隔线
+
+###响应式布局
+    根据不同分辨率加载不同样式表(不兼容IE678)
+    e.g.
+    <link rel="stylesheet" type="text/css" href="t.css" media="screen and (min-width:800px)" />
+    <link rel="stylesheet" type="text/css" href="t.css" media="screen and (min-width:400px) and (max-width:800px)" />
+    <link rel="stylesheet" type="text/css" href="t.css" media="screen and (max-width:400px)" />
+
+    横屏
+    <link rel="stylesheet" type="text/css" href="t.css" media="screen and (orientation:portrait)" />
+    竖屏
+    <link rel="stylesheet" type="text/css" href="t.css" media="screen and (orientation:landscape)" />
+
+    直接在样式表中添加
+    @media screen and (min-width:400px) and (max-width:800px) {
+        .box{margin:0 auto;}
+    }
+
+    400-800引入样式表
+    @import url("index.css") screen and (min-width:400px) and (max-width:800px);
+
+###弹性盒模型
+    .使用弹性盒模型时，父元素必须加display:box或display:inline-box;
+    box-orient定义盒模型的布局方向
+        horizontal  水平
+        vertical    垂直
+    box-direction   元素排列顺序
+        normal  正序
+        reverse 反序
+
+    e.g.
+    .box{height:200px;border:1px solid #ccc;padding:10px;display:-webkit-box;display:-moz-box;}
+    .box div{width:100px;height:100px;background:lightseagreen;border:1px solid #fff;}
+
+    box-ordinal-group设置元素的具体位置
+    e.g.
+    .box div:nth-of-type(1){-webkit-box-ordinal-group:2;}
+    .box div:nth-of-type(2){-webkit-box-ordinal-group:3;}
+    .box div:nth-of-type(3){-webkit-box-ordinal-group:1;}
+
+    box-flex定义盒子的弹性空间
+    子元素的尺寸=盒子的尺寸*子元素的box-flex属性值/所有子元素的box-flex属性值的和
+    .box div:nth-of-type(1){-webkit-box-flex:1;}
+    .box div:nth-of-type(2){-webkit-box-flex:2;}    1+2+3=6;分成6份，1/6,   2/6,    3/6
+    .box div:nth-of-type(3){-webkit-box-flex:3;}
+
+    box-pack对盒子富裕空间管理
+    start所有子元素在盒子左侧显示，富裕空间在右侧
+    end所有子元素在盒子右侧显示，富裕空间在左侧
+    center所有子元素居中
+    justify富余空间在子元素之间平均分布
+    e.g.
+    .box{height:200px;border:1px solid #ccc;padding:10px;display:-webkit-box;display:-moz-box;
+        -webkit-box-pack:justify;
+    }
+
+###盒模型新增属性(可叠加，方法类同text-shadow)
+    box-shadow:[inset] x y blur [spread] color
+    -   inset: 投影方式
+        inset: 内投影
+        默认外投影
+    -   x, y 阴影偏移
+    -   blur: 模糊半径
+    -   spread: 扩展阴影半径
+    e.g.
+    box-shadow: 10px 10px 10px #ccc;
+    box-shadow: 0 0 10px 10px #ccc;
+
+    box-reflect 倒影
+    .direction 方向   above|below|left|right;
+    .距离
+    .渐变(可选)
+    e.g.
+    -webkit-box-reflect:below;
+    -webkit-box-reflect:below 10px; 距倒影10px
+
+    linear-gradient 线性渐变
+    .box{width:300px;height:300px;background:-webkit-linear-gradient(red 0,blue 100%);}
+    .box{width:300px;height:300px;-webkit-box-reflect:right 10px
+        -webkit-linear-gradient(right,rgba(0,0,0,1) 0,rgba(0,0,0,0) 100%);
+    }
+
+    resize (必须配合overflow:auto使用)
+    both    水平垂直都可以缩放
+    horizontal  仅水平缩放
+    vertical    仅垂直缩放
+    e.g.
+    resize:both;
+
+    box-sizing 盒模型解析模式
+    .content-box    标准盒模型
+     width/height=border+padding+content
+    .border-box 怪异盒模型
+     width/height=content
+
+###CSS3新增UI样式
+    圆角
+    .box{width:100px;height:100px;border-radius:5px;background:#cc5a1f;}
+    椭圆
+    .box{width:100px;height:200px;border-radius:50px/100px;background:#cc5a1f;}
+    怪胎
+    .box{width:100px;height:200px;border-radius:20px 40px 60px 80px/10px 20px 30px 40px;background:#cc5a1f;}
+
+###CSS3过渡
+    transition
+    .box{width:100px;height:100px;background:#cc5a1f;transition:1s width,2s 1s height,3s 3s background;}
+    .box:hover{width:300px;height:200px;background:#0066cc;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

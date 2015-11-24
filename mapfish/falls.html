@@ -51,21 +51,21 @@
 		function getData(){
 			if(!iBtn)return;
 			iBtn=false;
-			$("window").each(data,function(obj,index){
+			$(data).each(function(){
 				var oImg=document.createElement('img');
-				$(oImg).attr('src',obj.url);
+				$(oImg).attr('src',this.url);
 
 				oContainer.append(oImg);
 
 				var iMinIndex=getMain();
-				var iHeight=iWidth/(obj.width)*(obj.height);
+				var iHeight=iWidth/(this.width)*(this.height);
 
 				$(oImg).css({'width':iWidth,'height':iHeight});
 				//$(oImg).center().animate({'left':arrLeft[iMinIndex],'top':arrTop[iMinIndex],'speed':20});
 				$(oImg).css({'left':arrLeft[iMinIndex],'top':arrTop[iMinIndex]});
 			
 				arrTop[iMinIndex]+=iHeight+10;
-			})
+			});
 
 			iBtn=true;
 		}
@@ -74,7 +74,7 @@
 		$(window).on('scroll',function(){
 			var iH=$(window).scrollTop()+$(window).innerHeight();
 			var iMinIndex=getMain();
-			document.title=arrTop[iMinIndex]+oContainer.offset().top+':'+iH
+			document.title=arrTop[iMinIndex]+oContainer.offset().top+':'+iH;
 			if(arrTop[iMinIndex]+oContainer.offset().top<iH){
 				//pageIndex++;
 				getData();
@@ -85,13 +85,13 @@
 			setCells();
 			var iH=$(window).scrollTop()+$(window).innerHeight();
 			var iMinIndex=getMain();
-			document.title=arrTop[iMinIndex]+oContainer.offset().top+':'+iH
+			document.title=arrTop[iMinIndex]+oContainer.offset().top+':'+iH;
 			if(arrTop[iMinIndex]+oContainer.offset().top<iH){
 				//pageIndex++;
 				getData();
 			}
 			if(iOldCells==icells)return;
-
+			
 			arrTop=[];
 			arrLeft=[];
 			for(var i=0;i<icells;i++){
@@ -99,15 +99,13 @@
 				arrLeft.push(i*iOuterWidth);
 			}
 
-			$("#container img").each(function(obj,index){
+			$("#container img").each(function(){
 				var iMinIndex=getMain();
-				$(obj).animate({'left':arrLeft[iMinIndex],'top':arrTop[iMinIndex]});
+				$(this).animate({'left':arrLeft[iMinIndex],'top':arrTop[iMinIndex]});
 				//$(obj).css('left',arrLeft[iMinIndex]).css('top',arrTop[iMinIndex]);
-				arrTop[iMinIndex]+=($(obj).height()+10);
+				arrTop[iMinIndex]+=($(this).height()+10);
 			})
-
 		})
-
 	})
 
 </script>
