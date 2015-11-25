@@ -287,8 +287,7 @@
 			if(!tag){
 				for(var i=0;i<objArray.length;i++){
 					if(objArray[i] == obj){
-						tmpElements.push(objArray[i-1]);
-						this.elements=tmpElements;
+						this.push(objArray[i-1]);
 						return this;
 					}
 				}
