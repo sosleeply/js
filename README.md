@@ -44,8 +44,14 @@
     $(selector).serialize() //表单序列化，返回json对象
     $(selector).drag()      //依赖position:absolute或position:fixed
     $(selector).dragEx()    //依赖position:absolute或position:fixed
-
-###400行之后，属插件类，待分离
+    $(selector).rotation1(interval)     //interval:1000=1秒，默认3秒。渐变轮播
+    $(selector).rotation2(interval)     //interval:1000=1秒，默认3秒。向上滚动轮播
+    $(selector).rotation3(interval)     //interval:1000=1秒，默认3秒。向左滚动轮播，覆盖方式
+    $(selector).rotation4(interval)     //interval:1000=1秒，默认3秒。向左滚动轮播，左推方式
+    $(selector).rotation5(minWidth)     //minWidth:非焦点时所占宽度，非轮播。默认平均占取宽度
+    $(selector).round2d(r,interval)     //r:半径,默认50, 30:定时器转动间隔，默认30。
+    $(selector).round3d(r,interval)     //r:半径,默认50, 30:定时器转动间隔，默认30。
+    $(selector).each(fn) or $(Array).each(fn)
 
 ###CSS
     text-indent:50px;   首行缩进50px
@@ -228,7 +234,7 @@
 
 
 
-
+u
 
 
 
