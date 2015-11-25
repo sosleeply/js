@@ -5,13 +5,11 @@
 <script type="text/javascript" src="mapfish.js"></script>
 <script type="text/javascript">
 $(function(){
-	$("span").each(function(){
-		$(this).html("success");
-	});
+	console.log($("#test span").eq(3).next("a").css({"color":"#fff"}));
 })
 </script>
 <style type="text/css">
-span{background:green;margin:0 8px;}
+span,a{background:green;margin:0 8px;}
 </style>
 </head>
 <body>
@@ -20,9 +18,11 @@ span{background:green;margin:0 8px;}
 	<span>abc1</span>
 	<span>abc2</span>
 	<span>abc3</span>
+	<a>a</a>
 	<span>abc4</span>
 	<span>abc5</span>
 	<span>abc6</span>
+	<a>a</a>
 	<span>abc7</span>
 	<span>abc8</span>
 	<span>abc9</span>
