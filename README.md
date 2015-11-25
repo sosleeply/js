@@ -29,7 +29,7 @@
 ##实现
     $(function(){})
     $(selector).css('color','red')
-    $(selector).css({'width':'100px','height':'100px'}})
+    $(selector).css({'width':'100','height':'100'}})
     $(selector).css('color')    //获取
     $(selector).attr('src','http://xxx.yyy.cn/img.jpg')
     $(selector).attr({'name':'userName',...})
@@ -52,6 +52,8 @@
     $(selector).round2d(r,interval)     //r:半径,默认50, 30:定时器转动间隔，默认30。
     $(selector).round3d(r,interval)     //r:半径,默认50, 30:定时器转动间隔，默认30。
     $(selector).each(fn) or $(Array).each(fn)
+    $(selector).animate({left:300,top:300,speed:20,interval:30})	//left:目标位置，top:目标位置,speed:运动速度,interval:频率    
+    
 
 ###CSS
     text-indent:50px;   首行缩进50px

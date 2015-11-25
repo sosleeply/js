@@ -152,6 +152,7 @@
 			}
 		},
 		css:function(attr,value){
+			value=parseInt(value) + 'px';
 			if(typeof attr=='string'){
 				for(var i=0;i<this.elements.length;i++){
 					if(arguments.length==1){
