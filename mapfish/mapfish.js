@@ -20,7 +20,6 @@
 			if ( !selector ) {
 				return this;
 			}
-			//console.log(typeof selector);
 			switch(typeof selector){
 				case 'function':
 				self.bindEvent(window,'load',selector);
@@ -417,8 +416,7 @@
 				var obj=this.elements[i];
                 if(obj instanceof Array){
                     for(var j=0;j<obj.length;j++){
-                        var item=obj[j];
-                        fn.call(item,j);
+                        fn.call(obj[j],j);
                     }
                 }else{
                     fn.call(obj,i);
@@ -762,7 +760,8 @@
 				}
 			},30);
 		},
-		rotation1:function(){
+		rotation1:function(interval){
+			if(!interval) interval=3000;
 			var self=this;
 
 			function move(obj,args,fn){
@@ -809,19 +808,45 @@
 			var aLiUl = oUl.getElementsByTagName('li');
 			var oOl = obj.getElementsByTagName('ol')[0];
 			var aLiOl = oOl.getElementsByTagName('li');
+			var iNow = 0;
+
+			function toShow(index){
+				for(var y=0;y<aLiOl.length;y++){
+					aLiOl[y].className = '';
+					move(aLiUl[y],{opacity:0});
+				}
+				aLiOl[index].className = 'active';
+				obj.style.display='block';
+				move(aLiUl[index],{opacity:100});
+			};
+
+			function toRun(){
+				iNow++;
+				if(iNow>aLiUl.length-1){
+					iNow=0;
+				}
+				toShow(iNow);
+			};
 
 			for(var x=0;x<aLiOl.length;x++){
 				aLiOl[x].index = x;
 				aLiOl[x].onmouseover=function(){
-					for(var y=0;y<aLiOl.length;y++){
-						aLiOl[y].className = '';
-						move(aLiUl[y],{opacity:0});
-					}
-					this.className = 'active';
-					aLiUl[this.index].style.display='block';
-					move(aLiUl[this.index],{opacity:100});
+					iNow=this.index;
+					toShow(this.index);
 				}
 			}
+			obj.timer = setInterval(function(){
+				toRun();
+			},interval);
+
+			obj.onmouseover=function(){
+				clearInterval(this.timer);
+			};
+			obj.onmouseout=function(){
+				this.timer = setInterval(function(){
+					toRun();
+				},interval);
+			};
 
 			return self;
 		},
