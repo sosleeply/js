@@ -268,6 +268,181 @@
 			}
 			return this;
 		},
+		parent:function(){
+			this.push(this.elements[0].parentNode);
+			return this;
+		},
+		size:function(){
+			return this.elements.length;
+		},
+		prev:function(tag){
+			var tmpElements = [];
+			var obj = this.elements[0];
+			var parent = obj.parentNode;
+			var objArray = parent.getElementsByTagName('*');
+			if(!objArray){
+				this.elements = tmpElements;
+				return this;
+			}
+			if(!tag){
+				for(var i=0;i<objArray.length;i++){
+					if(objArray[i] == obj){
+						tmpElements.push(objArray[i-1]);
+						this.elements=tmpElements;
+						return this;
+					}
+				}
+			}else{
+				tag=tag.toLowerCase();
+				for(var i=0;i<objArray.length;i++){
+					var tagName = objArray[i].tagName.toLowerCase();
+					if(tagName == tag){
+						tmpElements.push(objArray[i]);
+					}
+					if(objArray[i] == obj){
+						if(tagName==tag){
+							this.push(tmpElements[tmpElements.length-2]);
+						}else{
+							if(tmpElements.length>0){
+								this.push(tmpElements[tmpElements.length-1]);
+							}else{
+								this.elements=tmpElements;
+							}
+						}
+
+						return this;
+					}
+				}
+			}
+
+			this.elements = tmpElements;
+			return this;
+		},
+		prevAll:function(tag){
+			var tmpElements = [];
+			var obj = this.elements[0];
+			var parent = obj.parentNode;
+			var objArray = parent.getElementsByTagName('*');
+			if(!objArray){
+				this.elements = tmpElements;
+				return this;
+			}
+			if(!tag){
+				for(var i=0;i<objArray.length;i++){
+					tmpElements.push(objArray[i]);
+					if(objArray[i] == obj){
+						tmpElements.pop();
+						this.elements=tmpElements;
+						return this;
+					}
+				}
+			}else{
+				tag=tag.toLowerCase();
+				for(var i=0;i<objArray.length;i++){
+					var tagName = objArray[i].tagName.toLowerCase();
+					if(tagName==tag){
+						tmpElements.push(objArray[i]);
+					}
+					if(objArray[i] == obj){
+						if(tagName==tag){
+							tmpElements.pop();
+						}
+						this.elements=tmpElements;
+						return this;
+					}
+				}
+			}
+
+			this.elements = tmpElements;
+			return this;
+		},
+		next:function(tag){
+			var tmpElements = [];
+			var obj = this.elements[0];
+			var parent = obj.parentNode;
+			var objArray = parent.getElementsByTagName('*');
+			var index = 0;
+			if(!objArray){
+				this.elements = tmpElements;
+				return this;
+			}
+			if(!tag){
+				for(var i=0;i<objArray.length;i++){
+					if(index > 0){
+						this.push(objArray[i]);
+						return this;
+					}
+					if(objArray[i] == obj){
+						index = i;
+					}
+				}
+				this.elements=tmpElements;
+				return this;
+			}else{
+				tag=tag.toLowerCase();
+				for(var i=0;i<objArray.length;i++){
+					var tagName = objArray[i].tagName.toLowerCase();
+					if(index > 0){
+						if(tagName==tag){
+							this.push(objArray[i]);
+							return this;
+						}
+					}
+					if(objArray[i] == obj){
+						index = i;
+					}
+				}
+				this.elements=tmpElements;
+				return this;
+			}
+			this.elements = tmpElements;
+			return this;
+		},
+		nextAll:function(tag){
+			var tmpElements = [];
+			var obj = this.elements[0];
+			var parent = obj.parentNode;
+			var objArray = parent.getElementsByTagName('*');
+			var index = 0;
+			if(!objArray){
+				this.elements = tmpElements;
+				return this;
+			}
+			if(!tag){
+				for(var i=0;i<objArray.length;i++){
+					if(index > 0){
+						tmpElements.push(objArray[i]);
+					}
+					if(objArray[i] == obj){
+						index = i;
+					}
+				}
+				this.elements=tmpElements;
+				return this;
+			}else{
+				tag=tag.toLowerCase();
+				for(var i=0;i<objArray.length;i++){
+					var tagName = objArray[i].tagName.toLowerCase();
+					if(index > 0){
+						if(tagName==tag){
+							tmpElements.push(objArray[i]);
+						}
+					}
+					if(objArray[i] == obj){
+						index = i;
+					}
+				}
+				this.elements=tmpElements;
+				return this;
+			}
+			this.elements = tmpElements;
+			return this;
+		},
+		/*internal function*/
+		push:function(obj){
+			this.elements = [];
+			this.elements.push(obj);
+		},
 		/***********************************************/
 		/*****************events start******************/
 		on:function(events,fn){

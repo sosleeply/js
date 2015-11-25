@@ -9,15 +9,18 @@
     $(selector).first()
     $(selector).last()
     $(selector).find('a')
-###未实现
-    $('selector :first')
-    $('selector :last')
-    $('selector').prev()
+    $(selector).parent()
+    $(selector).prev()
     $(selector).prev('input')
     $(selector).prevAll()
+    $(selector).prevAll('input')
     $(selector).next()
     $(selector).next('input')
     $(selector).nextAll()
+    $(selector).nextAll('input')
+###未实现
+    $('selector :first')
+    $('selector :last')
 
 ###事件
 ##1.
