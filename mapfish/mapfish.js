@@ -911,7 +911,8 @@
 
 			return self;
 		},
-		rotation3:function(){
+		rotation3:function(interval){
+			if(!interval) interval=3000;
 			var self=this;
 
 			var obj=this.elements[0];
@@ -920,29 +921,62 @@
 			var oOl = obj.getElementsByTagName('ol')[0];
 			var aLiOl = oOl.getElementsByTagName('li');
 			var oWidth = aLiUl[0].offsetWidth;
-			oUl.iNow=0;
+			obj.iNow=0;
+			obj.index = 0;
+			obj.mutex = false;
 
+			function toHide(aLiUl,oWidth,index){
+				for(var i=0;i<aLiUl.length;i++){
+					if(i!==index){
+						aLiUl[i].style.left=oWidth+'px';
+					}
+				}
+			};
+			function toShow(index){
+				if(obj.mutex) return;
+				obj.mutex = true;
+				for(var y=0;y<aLiOl.length;y++){
+					aLiOl[y].className='';
+					if(y!==index){
+						aLiUl[y].style.zIndex=0;
+					}else{
+						aLiUl[y].style.zIndex=1;
+					}
+				}
+				aLiOl[index].className='active';
+				obj.index = index;
+				self.motion(aLiUl[index],{left:0},function(){
+					toHide(aLiUl,oWidth,index);
+					obj.mutex = false;
+				});
+				obj.iNow=index;
+			};
+			function toRun(){
+				obj.timer = setInterval(function(){
+					if(obj.mutex) return;
+					obj.iNow++;
+					if(obj.iNow>aLiUl.length-1){
+						obj.iNow=0;
+					}
+					toShow(obj.iNow);
+				},interval);
+			};
+			toRun();
 			for(var z=1;z<aLiUl.length;z++){
 				aLiUl[z].style.left=oWidth+'px';
 			}
 			for(var x=0;x<aLiOl.length;x++){
 				aLiOl[x].index = x;
 				aLiOl[x].onmouseover=function(){
-					for(var y=0;y<aLiOl.length;y++){
-						aLiOl[y].className='';
-					}
-					this.className='active';
-					if(oUl.iNow<this.index){
-						aLiUl[this.index].style.left=oWidth+'px';
-						self.motion(aLiUl[oUl.iNow],{left:-oWidth});
-					}else if(oUl.iNow>this.index){
-						aLiUl[this.index].style.left=-oWidth+'px';
-						self.motion(aLiUl[oUl.iNow],{left:oWidth});
-					}
-					self.motion(aLiUl[this.index],{left:0});
-					oUl.iNow=this.index;
+					toShow(this.index);
 				}
 			}
+			obj.onmouseover=function(){
+				clearInterval(this.timer);
+			};
+			obj.onmouseout=function(){
+				toRun();
+			};
 
 			return self;
 		},
