@@ -1,8 +1,7 @@
 ##选择器
     $('#id')
     $('.class')
-    $('div')            //tag
-    $('.main .left h1') //多级选择器
+    $('div')
     $(selector).eq(0)
     $(selector).first()
     $(selector).last()
@@ -18,6 +17,7 @@
     $(selector).nextAll('input')
     $('selector:first')
     $('selector:last')
+    $('.main .left h1') //复杂选择器
     $('selector:last .subselector span:first i')
 
 ##事件
@@ -44,22 +44,26 @@
     $(selector).append(object)
     $(selector).addClass('active')
     $(selector).removeClass('active')
-    $(selector).center()    //相对body屏幕居中，依赖position:fixed
+    $(selector).center()    //相对body屏幕居中，依赖css布局
     $(selector).remove()
     $(selector).serialize() //表单序列化，返回json对象
-    $(selector).drag()      //依赖position:absolute或position:fixed
-    $(selector).dragEx()    //依赖position:absolute或position:fixed
-    $(selector).rotation1(interval)     //interval:1000=1秒，默认3秒。渐变轮播
-    $(selector).rotation2(interval)     //interval:1000=1秒，默认3秒。向上滚动轮播
-    $(selector).rotation3(interval)     //interval:1000=1秒，默认3秒。向左滚动轮播，覆盖方式
-    $(selector).rotation4(interval)     //interval:1000=1秒，默认3秒。向左滚动轮播，左推方式
-    $(selector).rotation5(minWidth)     //minWidth:非焦点时所占宽度，非轮播。默认平均占取宽度
-    $(selector).round2d(r,interval)     //r:半径,默认50, 30:定时器转动间隔，默认30。
-    $(selector).round3d(r,interval)     //r:半径,默认50, 30:定时器转动间隔，默认30。
-    $(selector).each(fn) or $(Array).each(fn)
-    $(selector).animate({left:300,top:300,speed:20,interval:30})	//left:目标位置，top:目标位置,speed:运动速度,interval:频率    
+    $(selector).drag()      //拖拽。依赖css布局
+    $(selector).dragEx()    //拖拽+弹性运动。依赖css布局
+    $(selector).rotation1(interval)     //interval:1000=1秒，默认3秒。渐变轮播。依赖css布局
+    $(selector).rotation2(interval)     //interval:1000=1秒，默认3秒。向上滚动轮播。依赖css布局
+    $(selector).rotation3(interval)     //interval:1000=1秒，默认3秒。向左滚动轮播，覆盖方式。依赖css布局
+    $(selector).rotation4(interval)     //interval:1000=1秒，默认3秒。向左滚动轮播，左推方式。依赖css布局
+    $(selector).rotation5(minWidth)     //minWidth:非焦点时所占宽度，非轮播。默认平均占取宽度。依赖css布局
+    $(selector).round2d(r,interval)     //r:半径,默认50, 30:定时器转动间隔，默认30。依赖css布局
+    $(selector).round3d(r,interval)     //r:半径,默认50, 30:定时器转动间隔，默认30。依赖css布局
+    $(selector).each(fn)
+    $(Array).each(fn)
+    $(selector).animate({left:300,top:300,speed:20,interval:30})	//left:目标位置，top:目标位置,speed:运动速度,interval:定时器间隔时间
     
 
+
+
+####################未整理###################
 ##CSS
     text-indent:50px;   首行缩进50px
 
