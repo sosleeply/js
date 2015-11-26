@@ -84,6 +84,7 @@
 			}
 			return self;
 		},
+		/*internal function*/
 		bindEvent:function(obj,events,fn){
 			if(obj.addEventListener){
 				obj.addEventListener(events,fn,false);
@@ -91,30 +92,92 @@
 				obj.addachEvent('on'+events,fn);
 			}
 		},
+		/*internal function*/
 		getId:function(id,parent){
 			if(!parent)parent=document;
 			var tmpElements=[];
 			tmpElements.push(parent.getElementById(id));
 			return tmpElements;
 		},
+		/*internal function*/
 		getClass:function(className,parent){
 			if(!parent)parent=document;
 			var all=parent.getElementsByTagName('*');
 			var tmpElements=[];
-			for(var i=0;i<all.length;i++){
-				if(all[i].className.match(className)){
-					tmpElements.push(all[i]);
+			var index = className.indexOf(':');
+			if(index === -1){
+				for(var i=0;i<all.length;i++){
+					if(all[i].className.match(className)){
+						tmpElements.push(all[i]);
+					}
+				}
+			}else{
+				var _className = className.substring(0,index);
+				_className = _className.replace(/^\s+|\s+$/,'');
+				var subSelector = className.substring(index+1);
+				switch(subSelector){
+					case 'first':
+						for(var i=0;i<all.length;i++){
+							if(all[i].className.match(_className)){
+								tmpElements.push(all[i]);
+								break;
+							}
+						}
+						break;
+					case 'last':
+						for(var i=0;i<all.length;i++){
+							if(all[i].className.match(_className)){
+								tmpElements.push(all[i]);
+							}
+						}
+						var els = [];
+						if(tmpElements.length>0){
+							els.push(tmpElements[tmpElements.length-1]);
+						}
+						tmpElements=els;
+						break;
 				}
 			}
+			
 			return tmpElements;
 		},
+		/*internal function*/
 		getTag:function(tag,parent){
 			if(!parent)parent=document;
-			var tags=parent.getElementsByTagName(tag);
+			var tags = null;
 			var tmpElements=[];
-			for(var i=0;i<tags.length;i++){
-				tmpElements.push(tags[i]);
+			var index = tag.indexOf(':');
+			if(index === -1){
+				tags = parent.getElementsByTagName(tag);
+				for(var i=0;i<tags.length;i++){
+					tmpElements.push(tags[i]);
+				}
+			}else{
+				var _tag = tag.substring(0,index);
+				_tag = _tag.replace(/^\s+|\s+$/,'');
+				tags = parent.getElementsByTagName(_tag);
+				var subSelector = tag.substring(index+1);
+				switch(subSelector){
+					case 'first':
+						for(var i=0;i<tags.length;i++){
+							console.log(subSelector);
+							tmpElements.push(tags[i]);
+							break;
+						}
+						break;
+					case 'last':
+						for(var i=0;i<tags.length;i++){
+							tmpElements.push(tags[i]);
+						}
+						var els = [];
+						if(tmpElements.length>0){
+							els.push(tmpElements[tmpElements.length-1]);
+						}
+						tmpElements=els;
+						break;
+				}
 			}
+			
 			return tmpElements;
 		},
 		find:function(args){
@@ -190,6 +253,21 @@
 			
 			return this;
 		},
+		removeAttr:function(attr){
+			if(typeof attr=='string'){
+				for(var i=0;i<this.elements.length;i++){
+					this.elements[i].removeAttribute(attr);
+				}
+			}else if(typeof attr=='object'){
+				for(var i=0;i<this.elements.length;i++){
+					for(var key in attr){
+						this.elements[i].removeAttribute(key);
+					}
+				}
+			}
+			
+			return this;
+		},
 		html:function(str){
 			for(var i=0;i<this.elements.length;i++){
 				if(arguments.length==0){
@@ -197,6 +275,38 @@
 				}
 				this.elements[i].innerHTML=str;
 			}
+			return this;
+		},
+		text:function(str){
+			for(var i=0;i<this.elements.length;i++){
+				if(this.elements[i].innerText){
+					if(arguments.length==0){
+						return this.elements[i].innerText;
+					}
+					this.elements[i].innerText=str;
+				}else{
+					if(arguments.length==0){
+						return this.elements[i].textContent;
+					}
+					this.elements[i].textContent=str;
+				}
+			}
+			return this;
+		},
+		val:function(str){
+			for(var i=0;i<this.elements.length;i++){
+				if(arguments.length==0){
+					return this.elements[i].value;
+				}
+				this.elements[i].value=str;
+			}
+			return this;
+		},
+		empty:function(){
+			this.val('');
+			this.text('');
+			this.html('');
+
 			return this;
 		},
 		top:function(){
@@ -1333,7 +1443,7 @@
 	mapfish.extend = mapfish.fn.extend = function() {};
 	mapfish.extend({
 		trim:function(text) {
-			return text == null ? "": text.replace(/^\s+|\s+$/g,'');
+			return text == null ? "": text.replace(/^\s+|\s+$/,'');
 		},
 		browser:function(){
 			var ua=navigator.userAgent.toLowerCase();
