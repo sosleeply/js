@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css" >
+        @keyframes mbtn-ripple{
+            0%{box-shadow:0 0 0 0 rgba(0,0,0,0),0 0 0 1px rgba(230,0,18,0);}
+            10%{box-shadow:0 0 0 1px rgba(0,0,0,0),0 0 0 2px rgba(230,0,18,0.1);}
+            20%{box-shadow:0 0 0 2px rgba(0,0,0,0),0 0 0 4px rgba(230,0,18,0.2);}
+            40%{box-shadow:0 0 0 0 rgba(0,0,0,0),0 0 0 1px rgba(230,0,18,0.3);}
+            50%{box-shadow:0 0 0 1px rgba(0,0,0,0),0 0 0 3px rgba(230,0,18,0.2),0 0 0 5px rgba(0,0,0,0),0 0 0 8px rgba(230,0,18,0.4);}
+            60%{box-shadow:0 0 0 2px rgba(0,0,0,0),0 0 0 5px rgba(230,0,18,0.3),0 0 0 6px rgba(0,0,0,0),0 0 0 10px rgba(230,0,18,0.5);}
+            70%{box-shadow:0 0 0 3px rgba(0,0,0,0),0 0 0 6px rgba(230,0,18,0.4),0 0 0 7px rgba(0,0,0,0),0 0 0 11px rgba(230,0,18,0.4);}
+            80%{box-shadow:0 0 0 4px rgba(0,0,0,0),0 0 0 7px rgba(230,0,18,0.3),0 0 0 8px rgba(0,0,0,0),0 0 0 12px rgba(230,0,18,0.3);}
+            90%{box-shadow:0 0 0 5px rgba(0,0,0,0),0 0 0 6px rgba(230,0,18,0.2),0 0 0 9px rgba(0,0,0,0),0 0 0 13px rgba(230,0,18,0.2);}
+            100%{box-shadow:0 0 0 7px rgba(0,0,0,0),0 0 0 7px rgba(230,0,18,0.1),0 0 0 10px rgba(0,0,0,0),0 0 0 14px rgba(230,0,18,0);}
+        }
+        body{background:#666;}
+        .box{margin:100px;}
+        .mbtn-ripple{display:inline-block;width:56px;height:56px;padding:11px;font-size:21px;line-height:28px;letter-spacing:2px;
+            text-align:center;background:rgba(230,0,18,0.6);color:#fff;border-radius:39px;text-decoration:none;
+            animation:mbtn-ripple 3s alternate infinite;
+        }
+        .mbtn-ripple:focus{outline:0;}
+    </style>
+</head>
+<body>
+<div class="box">
+    <a class="mbtn-ripple">波纹按钮</a>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
