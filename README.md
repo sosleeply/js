@@ -20,10 +20,10 @@
     $('selector:last')
     $('selector:last .subselector span:first i')
 
-###事件
+##事件
     $(selector).on('eventName',function(){})
 
-###方法
+##方法
     $(function(){})
     $(selector).css('color','red')
     $(selector).css({'width':'100','height':'100'}})
@@ -60,13 +60,13 @@
     $(selector).animate({left:300,top:300,speed:20,interval:30})	//left:目标位置，top:目标位置,speed:运动速度,interval:频率    
     
 
-###CSS
+##CSS
     text-indent:50px;   首行缩进50px
 
-###兼容性
+##兼容性
     transition，兼容IE10及以上
 
-###CSS3选择器
+##CSS3选择器
     E[attr]只使用属性名，但没确定任何属性值。
     E[attr='value']指定属性名，并指定属性值
     E[attr~='value']指定属性名，并具有属性值，此属性值是一个词列表，空格隔开。其中包含了一个value词，而且等号前面的~不能不写
@@ -93,7 +93,7 @@
     p:first-of-type 等同于p:nth-of-type(1)
     p:last-of-type 等同于p:nth-last-of-type(1)
 
-###CSS3新增颜色模式
+##CSS3新增颜色模式
     rgba
     .r  Red     (取值0-255)
     .g  Green   (取值0-255)
@@ -104,7 +104,7 @@
     .box{color:rgba(0,0,0,0.6);}
     .box{border:1px solid rgba(255,0,0,0.3);}
 
-###CSS3文字阴影
+##CSS3文字阴影
     .text-shadow:x y blur color,...
     .参数
     -x      横向偏移
@@ -124,13 +124,13 @@
     Ltr从左向右排列
     direction:rtl; (right to left)
 
-###CSS3分栏布局
+##CSS3分栏布局
     column-width:100px;         每栏100px，列数自动计算
     column-count:5;             分成5栏，每栏宽度自动计算
     column-gap:10px;            栏目间隔10px
     column-rule:1px solid #ccc; 栏目分隔线
 
-###响应式布局
+##响应式布局
     根据不同分辨率加载不同样式表(不兼容IE678)
     e.g.
     <link rel="stylesheet" type="text/css" href="t.css" media="screen and (min-width:800px)" />
@@ -150,7 +150,7 @@
     400-800引入样式表
     @import url("index.css") screen and (min-width:400px) and (max-width:800px);
 
-###弹性盒模型
+##弹性盒模型
     .使用弹性盒模型时，父元素必须加display:box或display:inline-box;
     box-orient定义盒模型的布局方向
         horizontal  水平
@@ -185,7 +185,7 @@
         -webkit-box-pack:justify;
     }
 
-###盒模型新增属性(可叠加，方法类同text-shadow)
+##盒模型新增属性(可叠加，方法类同text-shadow)
     box-shadow:[inset] x y blur [spread] color
     -   inset: 投影方式
         inset: 内投影
@@ -224,7 +224,7 @@
     .border-box 怪异盒模型
      width/height=content
 
-###CSS3新增UI样式
+##CSS3新增UI样式
     圆角
     .box{width:100px;height:100px;border-radius:5px;background:#cc5a1f;}
     椭圆
@@ -232,16 +232,13 @@
     怪胎
     .box{width:100px;height:200px;border-radius:20px 40px 60px 80px/10px 20px 30px 40px;background:#cc5a1f;}
 
-###CSS3过渡
+##CSS3过渡
     transition
     .box{width:100px;height:100px;background:#cc5a1f;transition:1s width,2s 1s height,3s 3s background;}
     .box:hover{width:300px;height:200px;background:#0066cc;}
 
 
 
-
-
-u
 
 
 
