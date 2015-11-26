@@ -1,6 +1,4 @@
 ##选择器
-##1.
-###实现
     $('#id')
     $('.class')
     $('div')            //tag
@@ -18,28 +16,32 @@
     $(selector).next('input')
     $(selector).nextAll()
     $(selector).nextAll('input')
-###未实现
-    $('selector :first')
-    $('selector :last')
+    $('selector:first')
+    $('selector:last')
+    $('selector:last .subselector span:first i')
 
 ###事件
-##1.
-##实现
     $(selector).on('eventName',function(){})
 
 ###方法
-##1.
-##实现
     $(function(){})
     $(selector).css('color','red')
     $(selector).css({'width':'100','height':'100'}})
     $(selector).css('color')    //获取
     $(selector).attr('src','http://xxx.yyy.cn/img.jpg')
     $(selector).attr({'name':'userName',...})
-    $(selector).attr()  //获取
+    $(selector).attr('src')  //获取
+    $(selector).removeAttr('src')
     $(selector).show()
     $(selector).hide()
-    $(selector).append()
+    $(selector).html()
+    $(selector).html('<i>123</i>')
+    $(selector).text()
+    $(selector).text('123')
+    $(selector).val()
+    $(selector).val('123')
+    $(selector).empty()
+    $(selector).append(object)
     $(selector).addClass('active')
     $(selector).removeClass('active')
     $(selector).center()    //相对body屏幕居中，依赖position:fixed

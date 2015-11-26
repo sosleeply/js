@@ -5,7 +5,10 @@
 <script type="text/javascript" src="mapfish.js"></script>
 <script type="text/javascript">
 $(function(){
-	console.log($("#test span").eq(3).prev("a").css({"color":"#fff"}));
+	//console.log($("#test span").last());
+	$("#test span:last i").text('i_match');
+	//console.log($("#test textarea").empty());
+	//console.log($("#test span").last().html());
 })
 </script>
 <style type="text/css">
@@ -15,9 +18,11 @@ span,a{background:green;margin:0 8px;}
 <body>
 
 <div id="test">
-	<span>abc1</span>
-	<span>abc2</span>
-	<span>abc3</span>
+	<input type="text" value='321' />
+	<textarea rows="3" cols="20">123</textarea>
+	<span class='span' _id="1">abc1</span>
+	<span class='span' _id="1">abc2</span>
+	<span class='span' _id="1">abc3</span>
 	<a>a</a>
 	<span>abc4</span>
 	<span>abc5</span>
@@ -25,7 +30,7 @@ span,a{background:green;margin:0 8px;}
 	<a>a</a>
 	<span>abc7</span>
 	<span>abc8</span>
-	<span>abc9</span>
+	<span><i>123</i></span>
 </div>
 </body>
 </html>
