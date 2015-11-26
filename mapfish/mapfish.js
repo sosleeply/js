@@ -1439,7 +1439,7 @@
 		/*init end*/
 
 	};
-
+	/*extend*/
 	mapfish.extend = mapfish.fn.extend = function() {};
 	mapfish.extend({
 		trim:function(text) {
@@ -1448,22 +1448,9 @@
 		browser:function(){
 			var ua=navigator.userAgent.toLowerCase();
 			return ua;
-		},
-		isFunction: function( obj ) {
-			return jQuery.type(obj) === "function";
-		},
-
-		isArray: Array.isArray,
-
-		isWindow: function( obj ) {
-			return obj != null && obj === obj.window;
-		},
-
-		isNumeric: function( obj ) {
-			return !isNaN( parseFloat(obj) ) && isFinite( obj );
 		}
 	});
-
+	/*extend end*/
 
 
 
