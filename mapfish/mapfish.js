@@ -13,13 +13,16 @@
 		constructor: mapfish,
 
 		init: function( selector, context, rootMapfish ){
+			//console.log(typeof selector);
+			if ( !selector ) {
+				return this;
+			}
+			
 			var self = this;
 			self.elements = [];
 
 			var match, elem;
-			if ( !selector ) {
-				return this;
-			}
+			
 			switch(typeof selector){
 				case 'function':
 				self.bindEvent(window,'load',selector);
