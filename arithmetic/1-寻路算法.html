@@ -1,0 +1,179 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>无标题文档</title>
+    <style>
+        *{ margin:0; padding:0;}
+        li{ list-style:none;}
+        #ul{ height:auto; overflow:hidden; margin:20px auto; border:1px #ccc solid; border-bottom:none; border-right:none;}
+        #ul li{border:1px #ccc solid; border-top:none; border-left:none; float:left;}
+        #ul li.sty1{ background:#8082ff;border-radius:10px;}
+        #ul li.sty2{ background:#b02a00;border-radius:10px;}
+        #ul li.sty3{ background:#ff00dc;border-color:#ff00dc;}
+        #span{ width:100px; position:absolute; left:50%; margin-left:-50px;cursor:pointer;border:1px solid #ddd;height:36px;line-height:36px;text-align:center;}
+        #span:hover{border:1px solid #aaa;}
+    </style>
+</head>
+
+<body>
+<ul id="ul"></ul>
+<span id="span">begin</span>
+<script>
+    var oUl = document.getElementById('ul');
+    var aLi = oUl.getElementsByTagName('li');
+    var oBtn = document.getElementById('span');
+    var beginLi = oUl.getElementsByClassName('sty1');
+    var endLi = oUl.getElementsByClassName('sty2');
+
+    var map = [
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,3,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,2,0,3,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+    ];
+
+    var cols = Math.sqrt(map.length);
+    var gridSize = 20;
+    var openArr = [];
+    var closeArr = [];
+
+    init();
+
+    function init(){
+        createMap();
+        oBtn.onclick = function(){
+            openFn();
+        };
+    }
+
+    function createMap(){
+
+        oUl.style.width = cols * (gridSize + 1) + 'px';
+
+        for(var i=0;i<map.length;i++){
+            var oLi = document.createElement('li');
+            oLi.style.width = gridSize + 'px';
+            oLi.style.height = gridSize + 'px';
+            oUl.appendChild(oLi);
+
+            if( map[i] == 1 ){
+                oLi.className = 'sty1';
+                openArr.push(oLi);
+            }
+            else if(map[i] == 2){
+                oLi.className = 'sty2';
+            }
+            else if(map[i] == 3){
+                oLi.className = 'sty3';
+                closeArr.push(oLi);
+            }
+
+        }
+    }
+
+    function openFn(){
+        var nowLi = openArr.shift();
+        if(nowLi == endLi[0]){
+            showLine();
+            return;
+        }
+        closeFn(nowLi);
+        findLi(nowLi);
+        openArr.sort(function(li1,li2){
+            return li1.num - li2.num;
+        })
+        //console.log( openArr );
+        openFn();
+    }
+
+    function closeFn(nowLi){
+        closeArr.push( nowLi );
+    }
+
+    function findLi(nowLi){
+        var result = [];
+        for(var i=0;i<aLi.length;i++){
+            if( filter(aLi[i]) ){
+                result.push( aLi[i] );
+            }
+        }
+        function filter(li){
+            for(var i=0;i<closeArr.length;i++){
+                if( closeArr[i] == li ){
+                    return false;
+                }
+            }
+            for(var i=0;i<openArr.length;i++){
+                if( openArr[i] == li ){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        for(var i=0;i<result.length;i++){
+            if( (Math.abs(nowLi.offsetLeft - result[i].offsetLeft)<= gridSize + 1) && (Math.abs(nowLi.offsetTop - result[i].offsetTop)<= gridSize + 1) ){
+                result[i].num = f(result[i]);
+                result[i].parent = nowLi;
+                openArr.push( result[i] );
+            }
+        }
+    }
+
+    function showLine(){
+        var result = [];
+        var lastLi = closeArr.pop();
+        var iNow = 0;
+        findParent(lastLi);
+        function findParent(li){
+            result.unshift(li);
+            if(li.parent == beginLi[0]){
+                return;
+            }
+            findParent(li.parent);
+        }
+        var timer = setInterval(function(){
+            result[iNow].style.background = '#8082ff';
+            iNow++;
+            if(iNow == result.length){
+                clearInterval(timer);
+            }
+        },100);
+    }
+
+    function f(nodeLi){
+        return g(nodeLi) + h(nodeLi);
+    }
+
+    function g(nodeLi){
+        var a = beginLi[0].offsetLeft - nodeLi.offsetLeft;
+        var b = beginLi[0].offsetTop - nodeLi.offsetTop;
+        return Math.sqrt(a*a + b*b);
+    }
+
+    function h(nodeLi){
+        var a = endLi[0].offsetLeft - nodeLi.offsetLeft;
+        var b = endLi[0].offsetTop - nodeLi.offsetTop;
+        return Math.sqrt(a*a + b*b);
+    }
+
+</script>
+</body>
+</html>
